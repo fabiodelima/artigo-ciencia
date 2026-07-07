@@ -14,6 +14,7 @@ const { WebSocketServer } = require('ws');
 
 const PORT = process.env.PORT || 8080;
 const APP_ROOT = path.resolve(__dirname, '..');
+const BASE_PATH = '/artigo-ciencia';
 
 const MIME_TYPES = {
   '.css': 'text/css; charset=utf-8',
@@ -170,7 +171,12 @@ function send(ws, data) {
 }
 
 function getPathname(url) {
-  return new URL(url, 'http://localhost').pathname;
+  const pathname = new URL(url, 'http://localhost').pathname;
+  if (pathname === BASE_PATH) return '/';
+  if (pathname.startsWith(`${BASE_PATH}/`)) {
+    return pathname.slice(BASE_PATH.length);
+  }
+  return pathname;
 }
 
 function getSiteFromHost(hostHeader = '') {
