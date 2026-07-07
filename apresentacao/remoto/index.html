@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Controle Remoto — Epistemologia da Construção</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../tokens.css?v=5">
+  <style>
+    /* ======================================================================
+       ALIASES LOCAIS DO REMOTO
+       Tokens de marca vêm de ../tokens.css, gerado a partir do DESIGN.md.
+       ====================================================================== */
+    :root {
+      --navy:          var(--color-primary-deep);
+      --navy-dark:     var(--color-primary-darkest);
+      --navy-light:    var(--color-primary-mid);
+      --navy-lighter:  rgba(255,255,255,0.1);
+      --control-accent: var(--color-accent);
+      --control-accent-deep: var(--color-accent-deep);
+      --control-accent-soft: var(--color-accent-soft);
+      --control-structure: var(--color-primary-mid);
+      --control-structure-soft: rgba(62, 166, 255, 0.18);
+      --text-main:     var(--color-on-dark);
+      --text-muted:    rgba(240, 237, 232, 0.45);
+      --border:        rgba(240, 237, 232, 0.08);
+      --card-bg:       rgba(255,255,255,0.04);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--navy-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    /* ======================================================================
+       LAYOUT PRINCIPAL (coluna única, fullscreen)
+       ====================================================================== */
+    .remote-shell {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ── HEADER ───────────────────────────────────────────────────────────── */
+    .remote-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.25rem;
+      background-color: var(--navy);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .header-brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: var(--font-size-small);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .brand-sub {
+      font-size: var(--font-size-caption);
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+
+    /* Cronômetro */
+    .timer-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .timer-display {
+      font-size: var(--font-size-title);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.02em;
+      transition: color 0.5s;
+      color: var(--text-main);
+    }
+
+    .timer-display.warn   { color: var(--color-primary-mid); }
+    .timer-display.danger { color: var(--control-accent-soft); animation: pulse-timer 1s infinite; }
+
+    @keyframes pulse-timer {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .timer-label {
+      font-size: var(--font-size-caption);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+      text-align: right;
+    }
+
+    .timer-controls {
+      display: flex;
+      gap: var(--space-2xs);
+      margin-top: var(--space-3xs);
+    }
+
+    .btn-timer {
+      background: var(--border);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: var(--radius-control);
+      min-height: 44px;
+      padding: var(--space-2xs) var(--space-xs);
+      font-size: var(--font-size-caption);
+      font-family: var(--font-body);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-timer:hover, .btn-timer:active { background: var(--navy-lighter); color: var(--text-main); }
+
+    /* ── STATUS BAR ──────────────────────────────────────────────────────── */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 1.25rem;
+      background-color: var(--navy);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--text-muted);
+      transition: background-color 0.4s;
+      flex-shrink: 0;
+    }
+
+    .status-dot.connected    { background-color: var(--control-structure); box-shadow: 0 0 6px var(--control-structure); }
+    .status-dot.disconnected { background-color: var(--control-accent); }
+    .status-dot.connecting   { background-color: var(--control-accent-soft); animation: blink 1s infinite; }
+
+    @keyframes blink { 50% { opacity: 0.2; } }
+
+    .status-text {
+      font-size: var(--font-size-caption);
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    .session-badge {
+      font-size: var(--font-size-caption);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      background-color: var(--control-accent);
+      color: var(--color-on-dark);
+      border: 1px solid var(--control-accent-deep);
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+    }
+
+    .presenter-badge {
+      font-size: var(--font-size-caption);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.3s ease;
+    }
+
+    .presenter-badge.fabio {
+      background-color: var(--control-structure-soft);
+      color: var(--color-primary-soft);
+      border: 1px solid rgba(62, 166, 255, 0.42);
+    }
+
+    .presenter-badge.arthur {
+      background-color: rgba(255, 0, 0, 0.18);
+      color: var(--control-accent-soft);
+      border: 1px solid rgba(255, 0, 0, 0.42);
+    }
+
+    /* ── SLIDE INDICATOR ────────────────────────────────────────────────── */
+    .slide-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1.25rem;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .slide-label {
+      font-size: var(--font-size-caption);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .slide-counter {
+      font-size: var(--font-size-body);
+      font-weight: 700;
+      color: var(--control-accent-soft);
+    }
+
+    .slide-title-display {
+      font-family: var(--font-display);
+      font-size: var(--font-size-small);
+      font-weight: 600;
+      color: var(--text-main);
+      text-align: right;
+      max-width: 55%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── TELEPROMPTER ────────────────────────────────────────────────────── */
+    .teleprompter {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .teleprompter-heading {
+      font-size: var(--font-size-caption);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--control-accent-soft);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .teleprompter-script {
+      font-family: var(--font-display);
+      font-size: var(--font-size-body);
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--text-main);
+      border: 1px solid rgba(255, 0, 0, 0.24);
+      border-radius: var(--radius-control);
+      background: rgba(255, 0, 0, 0.08);
+      padding: 0.9rem 1rem;
+      transition: opacity 0.35s;
+    }
+
+    .next-up-box {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+    }
+
+    .next-up-label {
+      font-size: var(--font-size-caption);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .next-up-title {
+      font-size: var(--font-size-small);
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    /* ── ÁREA DE CONTROLES PRINCIPAIS ───────────────────────────────────── */
+    .controls-area {
+      padding: 1rem 1.25rem 1.4rem;
+      background-color: var(--navy);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    /* Botões Avançar / Voltar */
+    .nav-row {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 0.75rem;
+    }
+
+    .btn-nav {
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-body);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    .btn-nav:active {
+      transform: scale(0.95);
+    }
+
+    .btn-prev {
+      background-color: var(--navy-lighter);
+      color: var(--text-muted);
+      padding: 1.4rem 0.5rem;
+      font-size: var(--font-size-body-lg);
+    }
+
+    .btn-prev:active { background-color: var(--navy-light); }
+
+    .btn-next {
+      background: var(--control-accent);
+      color: var(--color-on-dark);
+      padding: 1.4rem 1rem;
+      font-size: var(--font-size-body-lg);
+      box-shadow: 0 8px 24px rgba(255, 0, 0, 0.28);
+    }
+
+    .btn-next:active {
+      box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+    }
+
+    .btn-next-label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .btn-next-main {
+      font-size: var(--font-size-body);
+      font-weight: 700;
+    }
+
+    .btn-next-sub {
+      font-size: var(--font-size-caption);
+      font-weight: 400;
+      opacity: 0.7;
+      margin-top: 0.1rem;
+    }
+
+    /* Setup da sessão — mostrado antes de conectar */
+    .setup-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: var(--navy-dark);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      gap: 1.5rem;
+      transition: opacity 0.4s;
+    }
+
+    .setup-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .setup-logo {
+      font-family: var(--font-display);
+      font-size: var(--font-size-title);
+      font-weight: 700;
+      color: var(--text-main);
+      text-align: center;
+    }
+
+    .setup-sub {
+      font-size: var(--font-size-small);
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.5;
+      max-width: 300px;
+    }
+
+    .setup-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .setup-label {
+      font-size: var(--font-size-caption);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--control-accent-soft);
+    }
+
+    .setup-input {
+      background-color: var(--navy-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      font-family: var(--font-body);
+      font-size: var(--font-size-title);
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.3em;
+      color: var(--text-main);
+      outline: none;
+      width: 100%;
+      caret-color: var(--control-accent);
+    }
+
+    .setup-input:focus {
+      border-color: var(--control-accent);
+      box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.16);
+    }
+
+    .btn-connect {
+      background: var(--control-accent);
+      color: var(--color-on-dark);
+      border: none;
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      font-family: var(--font-body);
+      font-size: var(--font-size-body);
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .btn-connect:active { transform: scale(0.97); }
+
+    .setup-hint {
+      font-size: var(--font-size-caption);
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* Toast de feedback */
+    .toast {
+      position: fixed;
+      bottom: 7rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background-color: rgba(10, 37, 64, 0.95);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      font-size: var(--font-size-small);
+      color: var(--text-main);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 200;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     OVERLAY DE SETUP — aparece ao carregar a página
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="setup-overlay" id="setupOverlay">
+  <div class="setup-logo">🍾 Controle Remoto</div>
+  <p class="setup-sub">Informe o código de sessão exibido na apresentação para conectar.</p>
+
+  <div class="setup-field">
+    <label class="setup-label" for="sessionInput">Código de Sessão</label>
+    <input
+      id="sessionInput"
+      class="setup-input"
+      type="tel"
+      inputmode="numeric"
+      maxlength="4"
+      placeholder="0000"
+      autocomplete="off"
+    >
+  </div>
+
+  <button class="btn-connect" id="btnConnect">Conectar →</button>
+
+  <p class="setup-hint">O código de 4 dígitos aparece no canto superior da apresentação principal.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     INTERFACE PRINCIPAL DO CONTROLE
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="remote-shell">
+
+  <!-- HEADER: logo + cronômetro -->
+  <header class="remote-header">
+    <div class="header-brand">
+      <span class="brand-title">🎙️ Controle Remoto</span>
+      <span class="brand-sub">Epistemologia · Koskela 2017</span>
+    </div>
+    <div class="timer-block">
+      <div class="timer-display" id="timerDisplay">00:00</div>
+      <div class="timer-label">Tempo Decorrido</div>
+      <div class="timer-controls">
+        <button class="btn-timer" id="btnStartTimer">▶ Iniciar</button>
+        <button class="btn-timer" id="btnResetTimer">↺ Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- STATUS: conexão WebSocket + ID da sessão -->
+  <div class="status-bar">
+    <div class="status-dot disconnected" id="statusDot"></div>
+    <span class="status-text" id="statusText">Desconectado</span>
+    <span class="session-badge" id="sessionBadge">—</span>
+  </div>
+
+  <!-- SLIDE INDICATOR: número + título atual -->
+  <div class="slide-indicator">
+    <div>
+      <div class="slide-label">Slide Atual</div>
+      <div class="slide-counter" id="slideCounter">01 / 12</div>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; max-width: 65%;">
+      <div class="slide-title-display" id="slideTitleDisplay" style="max-width: 100%; text-align: right;">Carregando…</div>
+      <span class="presenter-badge" id="presenterBadge">Apresentador</span>
+    </div>
+  </div>
+
+  <!-- TELEPROMPTER: roteiro de fala + checklist de ações -->
+  <div class="teleprompter" id="teleprompterArea">
+    <div class="teleprompter-heading">📋 Ações do Slide</div>
+    <ul class="actions-checklist" id="actionsChecklist" style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.2rem; padding: 0;">
+      <!-- Injetado dinamicamente via JS -->
+    </ul>
+
+    <div class="teleprompter-heading">🗣️ Roteiro de Fala</div>
+    <div class="teleprompter-script" id="scriptText">
+      Aguardando conexão com a apresentação…
+    </div>
+    <div class="next-up-box" style="margin-top: 1rem;">
+      <div class="next-up-label">▸ A seguir</div>
+      <div class="next-up-title" id="nextUpTitle">—</div>
+    </div>
+  </div>
+
+  <!-- CONTROLES: botões de navegação -->
+  <div class="controls-area">
+    <div class="nav-row">
+      <button class="btn-nav btn-prev" id="btnPrev" title="Voltar passo/slide">
+        ← Voltar
+      </button>
+      <button class="btn-nav btn-next" id="btnNext" title="Avançar passo/slide">
+        <div class="btn-next-label">
+          <span class="btn-next-main">Avançar →</span>
+          <span class="btn-next-sub">Próximo passo ou slide</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+</div><!-- /.remote-shell -->
+
+<!-- Toast de feedback -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Dados locais dos slides sincronizados com o console (teleprompter por passos) ──────────────────
+  // ── Dados locais dos slides sincronizados com o console (teleprompter por passos) ──────────────────
+  const SLIDES = [
+    {
+      title: "Capa / Abertura",
+      presenter: "Grupo",
+      steps: [
+        { desc: "Capa de abertura", speech: "Boa noite a todos. Nosso seminário analisa criticamente o artigo de Koskela e colegas, de 2017, sobre a epistemologia da engenharia e da gestão da construção — os fundamentos filosóficos ocultos por trás das falhas crônicas do setor." }
+      ]
+    },
+    {
+      title: "Metodologia da Apresentação",
+      presenter: "Fábio",
+      steps: [
+        { desc: "Revela o roadmap (6 etapas)", speech: "Em vez de percorrer o artigo seção por seção, organizamos a apresentação em torno das perguntas que ele investiga. Esta é a jornada em seis etapas que vamos seguir." },
+        { desc: "Explícitas × implícitas", speech: "Duas dessas perguntas são feitas explicitamente pelos autores; as demais nós reconstruímos. Mas cada pergunta será sempre respondida pelo próprio artigo." }
+      ]
+    },
+    {
+      title: "O Problema Oculto (Pergunta 1)",
+      presenter: "Fábio",
+      steps: [
+        { desc: "Pergunta geradora", speech: "As causas dos problemas da construção são realmente dispersas, ou existe uma causa-raiz comum que poderíamos atacar com esforço concentrado?" },
+        { desc: "Sintomas visíveis", speech: "Estes sintomas — atrasos, custos, silos, baixa qualidade — parecem desconectados." },
+        { desc: "Causa-raiz submersa", speech: "Mas todos emergem de uma mesma base submersa: a forma como adquirimos e validamos conhecimento na disciplina." },
+        { desc: "Resposta do artigo", speech: "A tese central: a causa-raiz negligenciada são as escolhas epistemológicas inadequadas." }
+      ]
+    },
+    {
+      title: "As Bases do Conhecimento (Pergunta 2)",
+      presenter: "Louise",
+      steps: [
+        { desc: "Lado platônico (dedução)", speech: "De onde vem o conhecimento para projetar? Para a tradição platônica, vem do mundo das ideias — raciocínio dedutivo, do abstrato para o concreto." },
+        { desc: "Lado aristotélico (indução/abdução)", speech: "Já para Aristóteles, o conhecimento começa na observação do mundo real, com indução e abdução, num ciclo contínuo de aprendizado." }
+      ]
+    },
+    {
+      title: "As Origens Intelectuais",
+      presenter: "Piero",
+      steps: [
+        { desc: "Rankine (herdeiro platônico)", speech: "No século XIX, Rankine funda a engenharia científica: física matemática, foco no design, teoria exata. A execução manual seria imperfeição inferior." },
+        { desc: "Shewhart (herdeiro aristotélico)", speech: "Já no século XX, Shewhart, pai da qualidade, faz o oposto: controle empírico da variabilidade, ciclo PDCA, foco na produção real." }
+      ]
+    },
+    {
+      title: "A Difusão do Platonismo",
+      presenter: "Franciele",
+      steps: [
+        { desc: "Eixo temporal pós-1945", speech: "Depois de 1945, essa contradição filosófica se difunde de forma desigual." },
+        { desc: "Via expressa platônica", speech: "De um lado, a via expressa: currículos matematizados, os relatórios Ford e Carnegie de 1959, a economia neoclássica — consolidando o racionalismo platônico." },
+        { desc: "Via de resistência aristotélica", speech: "Do outro, uma via de resistência marginal: a Qualidade japonesa, a Toyota e, mais tarde, a Construção Enxuta." },
+        { desc: "Resposta do artigo", speech: "O saldo: o platonismo se torna dominante; o aristotelismo, minoritário." }
+      ]
+    },
+    {
+      title: "Patologias na Construção (I)",
+      presenter: "Pâmela",
+      steps: [
+        { desc: "Obsessão pelo design (o muro)", speech: "A primeira patologia: a obsessão pelo projeto perfeito no papel. O projetista joga as plantas por cima do muro e espera que a execução se vire." },
+        { desc: "Mentalidade de silo", speech: "A segunda: a mentalidade de silo. Cada especialidade trabalha isolada, sem colaboração real durante o design." }
+      ]
+    },
+    {
+      title: "Patologias na Construção (II)",
+      presenter: "Pâmela & Valentina",
+      steps: [
+        { desc: "CPM empurrado e os 50%", speech: "O CPM empurra tarefas por durações teóricas. Quando a realidade física interfere, ele desmorona: só cerca de metade das tarefas semanais planejadas de fato acontece." },
+        { desc: "Last Planner e a negação do desperdício", speech: "O sistema puxado, o Last Planner, remove restrições antes de comprometer a tarefa. E o platonismo econômico nega axiomaticamente o desperdício, o que impede até de medi-lo." }
+      ]
+    },
+    {
+      title: "A Solução",
+      presenter: "Valentina",
+      steps: [
+        { desc: "A balança (síntese)", speech: "A proposta não é abandonar Platão. A dedução teórica é essencial no design conceitual." },
+        { desc: "Trazer o aristotelismo", speech: "Mas é urgente reequilibrar com o aristotelismo: produção real, combate ao desperdício, ciclos de aprendizado rápidos." },
+        { desc: "Reforma educacional", speech: "E a alavanca de longo prazo é a educação: trazer Filosofia da Ciência e Epistemologia para os currículos de engenharia e gestão." }
+      ]
+    },
+    {
+      title: "Discussão Crítica & Fechamento",
+      presenter: "Grupo",
+      steps: [
+        { desc: "Pergunta 1 (currículos)", speech: "Fechamos abrindo o debate. Primeiro: quão viável é, de fato, mudar os currículos de engenharia hoje?" },
+        { desc: "Pergunta 2 (Lean/BIM)", speech: "Segundo: Lean Construction e BIM integrado dão conta de unir o mundo de Platão ao de Aristóteles?" },
+        { desc: "Pergunta 3 (nossa universidade)", speech: "E, por fim: o ensino da nossa própria universidade é puramente platônico? Obrigado — vamos ao debate." }
+      ]
+    }
+  ];
+
+  // ── Configuração WebSocket ──────────────────────────────────────────────────
+  const WS_URL = (() => {
+    const explicit = new URLSearchParams(window.location.search).get('ws');
+    if (explicit) return explicit;
+
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    return `${protocol}//${window.location.host}`;
+  })();
+
+  let ws = null;
+  let sessionId = null;
+  let currentSlide = 0;
+  let currentStep = 1;
+  let isConnected = false;
+
+  // ── Cronômetro ──────────────────────────────────────────────────────────────
+  let timerSeconds = 0;
+  let timerRunning = false;
+  let timerInterval = null;
+
+  const timerDisplay = document.getElementById('timerDisplay');
+  const btnStartTimer = document.getElementById('btnStartTimer');
+  const btnResetTimer = document.getElementById('btnResetTimer');
+
+  function formatTime(s) {
+    const m = Math.floor(s / 60).toString().padStart(2, '0');
+    const sec = (s % 60).toString().padStart(2, '0');
+    return `${m}:${sec}`;
+  }
+
+  function updateTimerColor() {
+    timerDisplay.classList.remove('warn', 'danger');
+    if (timerSeconds >= 780) { // 13 min
+      timerDisplay.classList.add('danger');
+    } else if (timerSeconds >= 600) { // 10 min
+      timerDisplay.classList.add('warn');
+    }
+  }
+
+  btnStartTimer.addEventListener('click', () => {
+    if (timerRunning) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      btnStartTimer.textContent = '▶ Continuar';
+    } else {
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        timerDisplay.textContent = formatTime(timerSeconds);
+        updateTimerColor();
+      }, 1000);
+      timerRunning = true;
+      btnStartTimer.textContent = '⏸ Pausar';
+    }
+  });
+
+  btnResetTimer.addEventListener('click', () => {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    timerSeconds = 0;
+    timerDisplay.textContent = '00:00';
+    timerDisplay.classList.remove('warn', 'danger');
+    btnStartTimer.textContent = '▶ Iniciar';
+  });
+
+  // ── Atualização de UI ───────────────────────────────────────────────────────
+  function updateSlideUI(slideIdx, stepIdx) {
+    currentSlide = slideIdx;
+    currentStep = stepIdx || 1;
+
+    // Se stepIdx for 0 (estado inicial horizontal), trata como passo 1 para teleprompter
+    if (currentStep === 0) currentStep = 1;
+
+    const slide = SLIDES[slideIdx] || SLIDES[0];
+    const totalSteps = slide.steps.length;
+    const activeStep = slide.steps[currentStep - 1] || slide.steps[0];
+
+    // Atualiza contador de slides e passos
+    document.getElementById('slideCounter').innerHTML = 
+      `${String(slideIdx + 1).padStart(2, '0')} / ${SLIDES.length} <span style="font-size:var(--font-size-caption); opacity:0.6; font-weight:500; margin-left:0.3rem;">(Ação ${currentStep}/${totalSteps})</span>`;
+    
+    document.getElementById('slideTitleDisplay').textContent = slide.title;
+
+    // Atualiza o apresentador
+    const presenterBadge = document.getElementById('presenterBadge');
+    if (presenterBadge) {
+      const presenterName = slide.presenter || "Apresentador";
+      presenterBadge.textContent = `🎙️ ${presenterName}`;
+      presenterBadge.className = `presenter-badge ${presenterName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`;
+    }
+    document.getElementById('scriptText').textContent = `"${activeStep.speech}"`;
+
+    // Renderizar o Checklist de Ações do Slide
+    const checklistEl = document.getElementById('actionsChecklist');
+    if (checklistEl) {
+      checklistEl.innerHTML = '';
+      slide.steps.forEach((step, idx) => {
+        const stepNum = idx + 1;
+        const isCompleted = stepNum < currentStep;
+        const isActive = stepNum === currentStep;
+
+        const li = document.createElement('li');
+        li.style.cssText = `
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+          padding: 0.5rem 0.8rem;
+          background-color: ${isActive ? 'var(--navy-light)' : 'rgba(255,255,255,0.02)'};
+          border: 1px solid ${isActive ? 'var(--control-accent)' : 'rgba(240, 237, 232, 0.08)'};
+          border-radius: 8px;
+          opacity: ${isCompleted ? '0.4' : '1'};
+          transition: all 0.2s ease;
+        `;
+
+        // Checkbox visual baseado no status da ação
+        let checkboxHtml = '';
+        if (isCompleted) {
+          // Ação Concluída (Checked)
+          checkboxHtml = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--control-structure)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+        } else if (isActive) {
+          // Ação Ativa Atual
+          checkboxHtml = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--control-accent-soft)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>`;
+        } else {
+          // Ação Futura Pendente
+          checkboxHtml = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>`;
+        }
+
+        li.innerHTML = `
+          <div style="flex-shrink: 0; display: flex; align-items: center;">${checkboxHtml}</div>
+          <div style="font-size: var(--font-size-small); font-weight: ${isActive ? '700' : '400'}; color: ${isActive ? 'var(--control-accent-soft)' : 'var(--text-main)'};">
+            ${step.desc}
+          </div>
+        `;
+        checklistEl.appendChild(li);
+      });
+    }
+
+    // Lógica inteligente do "A Seguir" (próximo passo ou próximo slide)
+    const nextUpTitleEl = document.getElementById('nextUpTitle');
+    if (currentStep < totalSteps) {
+      const nextStepData = slide.steps[currentStep];
+      nextUpTitleEl.textContent = `Ação ${currentStep + 1} — ${nextStepData.desc}`;
+    } else {
+      const nextSlide = SLIDES[slideIdx + 1];
+      nextUpTitleEl.textContent = nextSlide ? `Slide ${slideIdx + 2} — ${nextSlide.title}` : 'Fim da Apresentação';
+    }
+
+    // Auto-scroll do teleprompter para o topo
+    const tp = document.getElementById('teleprompterArea');
+    tp.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function setStatus(state, text) {
+    const dot = document.getElementById('statusDot');
+    dot.className = `status-dot ${state}`;
+    document.getElementById('statusText').textContent = text;
+  }
+
+  function showToast(message, duration = 1800) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), duration);
+  }
+
+  // ── Conexão WebSocket ───────────────────────────────────────────────────────
+  function connect(id) {
+    sessionId = id;
+    document.getElementById('sessionBadge').textContent = id;
+    setStatus('connecting', 'Conectando…');
+
+    ws = new WebSocket(WS_URL);
+
+    ws.onopen = () => {
+      ws.send(JSON.stringify({ type: 'register', sessionId, role: 'remote' }));
+    };
+
+    ws.onmessage = (event) => {
+      let data;
+      try { data = JSON.parse(event.data); } catch { return; }
+
+      if (data.type === 'registered') {
+        isConnected = true;
+        setStatus('connected', 'Conectado à apresentação');
+        showToast('✅ Conectado!');
+        // Esconde o overlay de setup
+        document.getElementById('setupOverlay').classList.add('hidden');
+      }
+
+      if (data.type === 'state-update') {
+        updateSlideUI(data.slideIndex ?? 0, data.stepIndex ?? 1);
+      }
+
+      if (data.type === 'host-disconnected') {
+        isConnected = false;
+        setStatus('disconnected', 'Apresentação desconectada');
+        showToast('⚠️ Apresentação saiu da sala');
+      }
+    };
+
+    ws.onclose = () => {
+      isConnected = false;
+      setStatus('disconnected', 'Desconectado — reconectando…');
+      // Tenta reconectar após 3s
+      setTimeout(() => {
+        if (sessionId) connect(sessionId);
+      }, 3000);
+    };
+
+    ws.onerror = () => {
+      setStatus('disconnected', 'Erro de conexão');
+    };
+  }
+
+  function sendCommand(action) {
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+      showToast('⚠️ Sem conexão');
+      return;
+    }
+    ws.send(JSON.stringify({ type: 'command', action }));
+
+    // Feedback háptico (celular)
+    if (navigator.vibrate) {
+      navigator.vibrate(action === 'next' ? 40 : [20, 30, 20]);
+    }
+  }
+
+  // ── Botões de navegação ─────────────────────────────────────────────────────
+  document.getElementById('btnNext').addEventListener('click', () => {
+    sendCommand('next');
+    showToast('→ Avançar');
+  });
+
+  document.getElementById('btnPrev').addEventListener('click', () => {
+    sendCommand('prev');
+    showToast('← Voltar');
+  });
+
+  // ── Suporte a teclado (quando conectado via cabo/Bluetooth) ────────────────
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      e.preventDefault();
+      sendCommand('next');
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      sendCommand('prev');
+    }
+  });
+
+  // ── Setup e Conexão Inicial ─────────────────────────────────────────────────
+  const btnConnect = document.getElementById('btnConnect');
+  const sessionInput = document.getElementById('sessionInput');
+
+  btnConnect.addEventListener('click', () => {
+    const val = sessionInput.value.trim();
+    if (val.length < 4) {
+      sessionInput.style.borderColor = 'var(--control-accent)';
+      showToast('⚠️ Código de 4 dígitos');
+      return;
+    }
+    connect(val);
+  });
+
+  sessionInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') btnConnect.click();
+  });
+
+  // Inicializa o UI do slide zero enquanto aguarda conexão
+  updateSlideUI(0, 1);
+</script>
+</body>
+</html>

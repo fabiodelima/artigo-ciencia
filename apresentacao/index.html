@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>On Epistemology of Construction Engineering and Management — Seminário</title>
+  <meta name="description" content="Seminário de mestrado sobre o artigo 'On Epistemology of Construction Engineering and Management' (Koskela et al., 2017).">
+  <meta name="author" content="Fábio, Louise, Piero, Franciele, Pâmela, Valentina">
+  <link rel="icon" href="data:,">
+
+  <link rel="stylesheet" href="tokens.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="slides-extra.css?v=6">
+  <style id="slide-04-styles">
+    /* Slide 4 layout overrides to guarantee page fit and prevent vertical clipping */
+    #slide-04 .card--split {
+      padding-top: 4vh !important;
+      padding-bottom: 4vh !important;
+      justify-content: flex-start !important;
+      overflow: hidden !important;
+    }
+
+    #slide-04 .card-badge {
+      margin-bottom: var(--space-s) !important;
+    }
+
+    #slide-04 h3.card-title {
+      margin-bottom: var(--space-s) !important;
+    }
+
+    #slide-04 p.card-text {
+      margin-bottom: var(--space-m) !important;
+    }
+
+    /* --- Platonismo Horizontal Flow --- */
+    .theory-flow-horizontal {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      margin-top: 15px !important;
+      width: 100% !important;
+    }
+
+    .theory-flow-horizontal .flow-node {
+      padding: 10px 14px !important;
+      border-radius: var(--radius-control) !important;
+      font-family: var(--font-body) !important;
+      font-size: var(--font-size-body) !important;
+      font-weight: 600 !important;
+      text-align: center !important;
+      width: 150px !important;
+      box-sizing: border-box !important;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+    }
+
+    .theory-flow-horizontal .flow-node:hover {
+      transform: translateY(-2px) !important;
+    }
+
+    .theory-flow-horizontal .flow-arrow-container {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100px !important;
+    }
+
+    .theory-flow-horizontal .flow-arrow-label {
+      font-family: var(--font-body) !important;
+      font-size: var(--font-size-caption) !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.08em !important;
+      text-transform: uppercase !important;
+      margin-bottom: 4px !important;
+    }
+
+    .theory-flow-horizontal .flow-arrow-svg {
+      width: 100px !important;
+      height: 20px !important;
+      display: block !important;
+      overflow: visible !important;
+    }
+
+    .dark-side .theory-flow-horizontal .flow-node {
+      background-color: var(--color-accent-soft) !important;
+      border: 2px solid var(--color-accent) !important;
+      color: var(--color-accent-deep) !important;
+    }
+
+    .dark-side .theory-flow-horizontal .flow-node:hover {
+      box-shadow: 0 6px 15px rgba(5, 22, 42, 0.18) !important;
+    }
+
+    .dark-side .theory-flow-horizontal .flow-arrow-label {
+      color: var(--color-accent-soft) !important;
+    }
+
+    .dark-side .theory-flow-horizontal .flow-arrow-svg {
+      color: var(--color-accent-soft) !important;
+    }
+
+    /* --- Aristotelismo Cycle Grid & Wrapper --- */
+    .theory-cycle-wrapper {
+      position: relative !important;
+      width: 420px !important;
+      margin: 15px auto 0 !important;
+      height: 174px !important;
+    }
+
+    .theory-cycle-wrapper .grid-arrows {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 1 !important;
+      pointer-events: none !important;
+      overflow: visible !important;
+    }
+
+    .theory-cycle-grid {
+      display: grid !important;
+      grid-template-columns: 160px 100px 160px !important;
+      grid-template-rows: 52px 70px 52px !important;
+      align-items: center !important;
+      justify-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      position: relative !important;
+      z-index: 2 !important;
+    }
+
+    .theory-cycle-grid .top-node {
+      grid-column: 1 / span 3 !important;
+      grid-row: 1 !important;
+      justify-self: center !important;
+      width: 160px !important;
+    }
+
+    .theory-cycle-grid .bottom-left {
+      grid-column: 1 !important;
+      grid-row: 3 !important;
+    }
+
+    .theory-cycle-grid .bottom-right {
+      grid-column: 3 !important;
+      grid-row: 3 !important;
+    }
+
+    .theory-cycle-grid .cycle-node {
+      width: 160px !important;
+      box-sizing: border-box !important;
+      padding: 10px 12px !important;
+      border-radius: var(--radius-control) !important;
+      font-family: var(--font-body) !important;
+      font-size: var(--font-size-body) !important;
+      font-weight: 600 !important;
+      text-align: center !important;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+      z-index: 2 !important;
+      position: relative !important;
+    }
+
+    .theory-cycle-grid .cycle-node:hover {
+      transform: translateY(-2px) !important;
+    }
+
+    .theory-cycle-grid .cycle-label {
+      font-family: var(--font-body) !important;
+      font-size: var(--font-size-caption) !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.08em !important;
+      text-transform: uppercase !important;
+      z-index: 3 !important;
+    }
+
+    .theory-cycle-grid .left-diagonal {
+      grid-column: 1 !important;
+      grid-row: 2 !important;
+      align-self: center !important;
+      justify-self: end !important;
+      margin-right: 75px !important;
+    }
+
+    .theory-cycle-grid .right-diagonal {
+      grid-column: 3 !important;
+      grid-row: 2 !important;
+      align-self: center !important;
+      justify-self: start !important;
+      margin-left: 75px !important;
+    }
+
+    .theory-cycle-grid .horizontal-label {
+      grid-column: 2 !important;
+      grid-row: 3 !important;
+      align-self: center !important;
+      justify-self: center !important;
+      margin-bottom: 36px !important;
+    }
+
+    .light-side .theory-cycle-grid .cycle-node {
+      background-color: var(--color-primary-soft) !important;
+      border: 2px solid var(--color-primary) !important;
+      color: var(--color-primary-deep) !important;
+    }
+
+    .light-side .theory-cycle-grid .cycle-node:hover {
+      box-shadow: 0 6px 15px rgba(10, 37, 64, 0.12) !important;
+    }
+
+    .light-side .theory-cycle-grid .cycle-label {
+      color: var(--color-primary) !important;
+    }
+
+    .light-side .theory-cycle-wrapper .grid-arrows {
+      color: var(--color-primary) !important;
+    }
+  </style>
+  <script defer src="main.js?v=5"></script>
+</head>
+<body>
+
+  <!-- INDICADOR LATERAL DE PÁGINA (10 slides) -->
+  <div class="indicator-container">
+    <ul class="indicator">
+      <li class="indicator-index expand" data-target-index="0"><span class="indicator-number">01</span></li>
+      <li class="indicator-line"></li>
+      <li class="indicator-index" data-target-index="1"><span class="indicator-number">02</span></li>
+      <li class="indicator-line"></li>
+      <li class="indicator-index" data-target-index="2"><span class="indicator-number">03</span></li>
+      <li class="indicator-line"></li>
+      <li class="indicator-index" data-target-index="3"><span class="indicator-number">04</span></li>
+      <li class="indicator-line"></li>
+      <li class="indicator-index" data-target-index="4"><span class="indicator-number">05</span></li>
+      <li class="indicator-line"></li>
+      <li class="indicator-index" data-target-index="5"><span class="indicator-number">06</span></li>
+      <li class="indicator-line"></li>
+      <li class="indicator-index" data-target-index="6"><span class="indicator-number">07</span></li>
+      <li class="indicator-line"></li>
+      <li class="indicator-index" data-target-index="7"><span class="indicator-number">08</span></li>
+      <li class="indicator-line"></li>
+      <li class="indicator-index" data-target-index="8"><span class="indicator-number">09</span></li>
+      <li class="indicator-line"></li>
+      <li class="indicator-index" data-target-index="9"><span class="indicator-number">10</span></li>
+    </ul>
+  </div>
+
+  <div class="slides-wrapper">
+
+    <!-- SLIDE 01: CAPA -->
+    <section class="slide-section dark" id="slide-01" data-index="0">
+      <div class="hero-overlay"></div>
+      <div class="hero-wrapper" data-content>
+        <h1 class="hero-title"><em>On Epistemology of Construction Engineering and Management</em></h1>
+        <p class="hero-reference">Koskela, L.; Kagioglou, M.; et al. 2017</p>
+        <p class="hero-deck">
+          Os fundamentos filosóficos ocultos por trás das falhas crônicas do setor
+        </p>
+        <div class="cover-members">
+          <p class="label">Grupo</p>
+          <div class="cover-members-list">
+            <span class="member">Fábio</span>
+            <span class="member">Franciele</span>
+            <span class="member">Louise</span>
+            <span class="member">Pâmela</span>
+            <span class="member">Piero</span>
+            <span class="member">Valentina</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 02: METODOLOGIA (roadmap) -->
+    <section class="slide-section" id="slide-02" data-index="1">
+      <div class="slide-frame">
+        <header class="slide-header">
+          <p class="slide-category">02 · Como vamos apresentar</p>
+          <h2 class="slide-title">Uma jornada por perguntas</h2>
+        </header>
+        <div class="slide-content-area" data-content>
+          <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
+            <div class="grid grid--6-col roadmap">
+              <div class="card card--roadmap" data-step="1"><p class="card-number">1</p><p class="card-text">O Problema Oculto</p></div>
+              <div class="card card--roadmap" data-step="2"><p class="card-number">2</p><p class="card-text">Bases do Conhecimento</p></div>
+              <div class="card card--roadmap" data-step="3"><p class="card-number">3</p><p class="card-text">As Origens</p></div>
+              <div class="card card--roadmap" data-step="4"><p class="card-number">4</p><p class="card-text">A Difusão</p></div>
+              <div class="card card--roadmap" data-step="5"><p class="card-number">5</p><p class="card-text">As Patologias</p></div>
+              <div class="card card--roadmap" data-step="6"><p class="card-number">6</p><p class="card-text">A Solução</p></div>
+            </div>
+            <p class="methodology-note" data-step="7">
+              Em vez de percorrer o artigo seção por seção, organizamos a apresentação em torno das <strong>perguntas que ele investiga</strong>. Duas são feitas <strong>explicitamente</strong> pelos autores (🟢); as demais reconstruímos a partir da lógica do texto. Cada slide levanta uma pergunta e entrega a <strong>resposta do artigo</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 03: O PROBLEMA OCULTO (Q1 explícita) — Iceberg -->
+    <section class="slide-section dark" id="slide-03" data-index="2">
+      <div class="slide-frame">
+        <header class="slide-header">
+          <p class="slide-category">03 · O Problema Oculto</p>
+          <h2 class="slide-title">Causas dispersas ou uma raiz comum?</h2>
+        </header>
+        <div class="slide-content-area" data-content>
+          <div class="grid grid--2-col">
+            <div>
+              <span class="card-badge" data-step="1">Pergunta do artigo</span>
+              <p class="big-question" data-step="1">
+                As causas dos problemas da construção são <em>abundantes e dispersas</em>, ou existe uma <em>causa-raiz</em> que poderia ser remediada com esforço concentrado?
+              </p>
+              <div class="callout" data-step="4">
+                <p class="callout-label">→ Resposta do artigo</p>
+                <p>Existe <strong>uma</strong> causa-raiz sistematicamente negligenciada: as <strong>escolhas epistemológicas inadequadas</strong> na engenharia e na gestão.</p>
+              </div>
+            </div>
+            <div>
+              <p class="ice-tag" data-step="2">Sintomas visíveis (a ponta do iceberg)</p>
+              <div class="ice-symptoms" data-step="2">
+                <span>Atrasos crônicos</span>
+                <span>Estouro de orçamento</span>
+                <span>Baixa qualidade</span>
+                <span>Falhas na cadeia de suprimentos</span>
+                <span>CPM ineficaz</span>
+                <span>Silos</span>
+              </div>
+              <div class="iceberg-line" data-step="3"><span>linha d'água</span></div>
+              <div class="callout callout--root" data-step="3">
+                <strong>Epistemologia inadequada</strong>
+                <small>Como entendemos, adquirimos e validamos o conhecimento na nossa disciplina — a base submersa que sustenta todos os sintomas.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 04: AS BASES DO CONHECIMENTO (Q2 explícita) — Split Platão/Aristóteles -->
+    <section class="slide-section full-bleed" id="slide-04" data-index="3">
+      <div class="slide-frame">
+        <div class="slide-content-area" data-content style="padding: 0; width: 100%; height: 100%;">
+          <div class="grid grid--2-col theory-split-container">
+
+            <div class="card card--split dark-side" data-step="1">
+              <span class="slide-category">04 · Bases do Conhecimento</span>
+              <div class="card-badge">Racionalismo</div>
+              <h3 class="card-title">Platonismo</h3>
+              <p class="card-text">
+                <strong>O conhecimento vem do mundo das ideias.</strong><br>
+                Raciocínio <strong>dedutivo</strong>: parte de axiomas e teorias abstratas em direção à prática. O mundo físico é visto como imperfeito — o projetista desenha o "plano perfeito" e espera que a obra se adapte a ele.
+              </p>
+              <div class="theory-flow-horizontal">
+                <div class="flow-node">Teorias / Axiomas</div>
+                <div class="flow-arrow-container">
+                  <span class="flow-arrow-label">Dedução</span>
+                  <svg class="flow-arrow-svg" viewBox="0 0 100 20">
+                    <defs>
+                      <marker id="arrow-red" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="currentColor"/>
+                      </marker>
+                    </defs>
+                    <path d="M 0 10 L 95 10" fill="none" stroke="currentColor" stroke-width="2" class="edge-path" marker-end="url(#arrow-red)"/>
+                  </svg>
+                </div>
+                <div class="flow-node">Projeto Perfeito</div>
+                <div class="flow-arrow-container">
+                  <span class="flow-arrow-label">Imposição</span>
+                  <svg class="flow-arrow-svg" viewBox="0 0 100 20">
+                    <path d="M 0 10 L 95 10" fill="none" stroke="currentColor" stroke-width="2" class="edge-path" marker-end="url(#arrow-red)"/>
+                  </svg>
+                </div>
+                <div class="flow-node">Execução Física</div>
+              </div>
+            </div>
+
+            <div class="card card--split light-side" data-step="2">
+              <span class="slide-category" style="color: var(--color-primary-deep); opacity: 0.6;">A pergunta: de onde vem o conhecimento para projetar e planejar?</span>
+              <div class="card-badge">Empirismo</div>
+              <h3 class="card-title">Aristotelismo</h3>
+              <p class="card-text">
+                <strong>O conhecimento começa na observação do mundo real.</strong><br>
+                Raciocínio <strong>indutivo</strong> (conceitos a partir de fatos) e <strong>abdutivo</strong> (hipóteses/diagnósticos). O plano se adapta às restrições físicas encontradas.
+              </p>
+              <div class="theory-cycle-wrapper">
+                <!-- Absolute background SVG arrows -->
+                <svg class="grid-arrows" viewBox="0 0 420 174">
+                  <defs>
+                    <marker id="arrow-blue" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="currentColor"/>
+                    </marker>
+                  </defs>
+                  <!-- Arrow 1: Top -> Bottom-Left -->
+                  <path d="M 145 52 L 95 120" fill="none" stroke="currentColor" stroke-width="2" class="edge-path" marker-end="url(#arrow-blue)"/>
+                  <!-- Arrow 2: Bottom-Left -> Bottom-Right -->
+                  <path d="M 160 148 L 255 148" fill="none" stroke="currentColor" stroke-width="2" class="edge-path" marker-end="url(#arrow-blue)"/>
+                  <!-- Arrow 3: Bottom-Right -> Top -->
+                  <path d="M 325 120 L 275 52" fill="none" stroke="currentColor" stroke-width="2" class="edge-path" marker-end="url(#arrow-blue)"/>
+                </svg>
+
+                <div class="theory-cycle-grid">
+                  <!-- HTML Nodes -->
+                  <div class="cycle-node top-node">Observação Real</div>
+                  
+                  <div class="cycle-label left-diagonal">Abdução</div>
+                  <div class="cycle-label right-diagonal">Dedução</div>
+                  
+                  <div class="cycle-node bottom-left">Diagnóstico</div>
+                  <div class="cycle-label horizontal-label">Indução</div>
+                  <div class="cycle-node bottom-right">Conceitos / Teoria</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 05: AS ORIGENS — Split Rankine/Shewhart (evolução da teoria) -->
+    <section class="slide-section full-bleed" id="slide-05" data-index="4">
+      <div class="slide-frame">
+        <div class="slide-content-area" data-content style="padding: 0; width: 100%; height: 100%;">
+          <div class="grid grid--2-col theory-split-container">
+
+            <div class="card card--split dark-side" data-step="1">
+              <span class="slide-category">05 · As Origens Intelectuais</span>
+              <div class="card-badge">Herdeiro do Platonismo</div>
+              <h3 class="card-title">William Rankine</h3>
+              <p class="card-text" style="margin-bottom:0.4rem;">
+                Séc. XIX · O pai da <strong>engenharia científica</strong>. Aplicou a física matemática para prever o comportamento das estruturas. Tratou os ajustes manuais da execução como imperfeições inferiores.
+              </p>
+              <table class="split-table">
+                <tr><td class="th">Foco</td><td class="th">Perfil</td></tr>
+                <tr><td>Design</td><td>Leis universais</td></tr>
+                <tr><td>Raciocínio dedutivo</td><td>Solução "ótima" teórica</td></tr>
+              </table>
+            </div>
+
+            <div class="card card--split light-side" data-step="2">
+              <span class="slide-category" style="color: var(--color-primary-deep); opacity: 0.6;">Rankine e Shewhart são os herdeiros concretos das duas epistemologias</span>
+              <div class="card-badge">Herdeiro do Aristotelismo</div>
+              <h3 class="card-title">Walter Shewhart</h3>
+              <p class="card-text" style="margin-bottom:0.4rem;">
+                Séc. XX · O pai da <strong>qualidade</strong>. Buscou o controle empírico da variabilidade física na produção. Criou o controle estatístico de processo e o ciclo PDCA.
+              </p>
+              <table class="split-table">
+                <tr><td class="th">Foco</td><td class="th">Perfil</td></tr>
+                <tr><td>Produção</td><td>Variabilidade física</td></tr>
+                <tr><td>Raciocínio indutivo</td><td>Aprendizado cíclico</td></tr>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 06: A DIFUSÃO — Timeline pós-1945 -->
+    <section class="slide-section" id="slide-06" data-index="5">
+      <div class="slide-frame">
+        <header class="slide-header">
+          <p class="slide-category">06 · A Difusão Histórica</p>
+          <h2 class="slide-title">Como o platonismo passou a dominar</h2>
+        </header>
+        <div class="slide-content-area" data-content>
+          <div class="timeline-wrap">
+            <p class="timeline-axis" data-step="1">Pós-1945 →</p>
+            <div class="timeline-lanes">
+              <div class="lane dominant" data-step="2">
+                <div class="lane-label">Via Expressa<small>Racionalismo Platônico (dominante)</small></div>
+                <div class="lane-track">
+                  <div class="lane-item">Reforma curricular da engenharia (matemática aplicada)</div>
+                  <div class="lane-item">Relatórios Ford &amp; Carnegie (1959)</div>
+                  <div class="lane-item">Economia neoclássica &amp; métodos quantitativos</div>
+                </div>
+              </div>
+              <div class="lane resistance" data-step="3">
+                <div class="lane-label">Via de Resistência<small>Empirismo Aristotélico (marginal)</small></div>
+                <div class="lane-track">
+                  <div class="lane-item">Movimento da Qualidade no Japão (Deming)</div>
+                  <div class="lane-item">Toyota / TPS</div>
+                  <div class="lane-item">Lean Construction</div>
+                </div>
+              </div>
+            </div>
+            <div class="callout" data-step="4" style="margin-top:2.2rem;">
+              <p class="callout-label">→ Resposta do artigo</p>
+              <p>Reformas educacionais e os relatórios de 1959 consolidaram o platonismo como paradigma dominante; o aristotelismo sobreviveu à margem, no chão de fábrica.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 07: PATOLOGIAS A — Muro do design & silos -->
+    <section class="slide-section" id="slide-07" data-index="6">
+      <div class="slide-frame">
+        <header class="slide-header">
+          <p class="slide-category">07 · Patologias na Construção (I)</p>
+          <h2 class="slide-title">Quando o platonismo excessivo adoece o projeto</h2>
+        </header>
+        <div class="slide-content-area" data-content>
+          <div class="grid grid--2-col">
+            <div class="card card--tension" data-step="1">
+              <div class="card-badge card-badge--alert"><span>🧱 Obsessão pelo Design</span></div>
+              <h3 class="card-title">O muro do projeto perfeito</h3>
+              <p class="card-text">
+                Detalha-se o plano no papel ignorando a construtibilidade física. O projetista "joga" as plantas por cima do muro — e os operários do outro lado que resolvam a execução.
+              </p>
+            </div>
+            <div class="card card--tension" data-step="2">
+              <div class="card-badge card-badge--alert"><span>🧩 Mentalidade de Silo</span></div>
+              <h3 class="card-title">Fragmentação do conhecimento</h3>
+              <p class="card-text">
+                A superespecialização faz cada disciplina (estruturas, elétrica, hidráulica) trabalhar isolada, sem colaboração real durante o design.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 08: PATOLOGIAS B — CPM vs Last Planner -->
+    <section class="slide-section" id="slide-08" data-index="7">
+      <div class="slide-frame">
+        <header class="slide-header">
+          <p class="slide-category">08 · Patologias na Construção (II)</p>
+          <h2 class="slide-title">A negação do desperdício e a falha do CPM</h2>
+        </header>
+        <div class="slide-content-area" data-content>
+          <div class="grid grid--2-col">
+            <div class="card card--tension" data-step="1">
+              <div class="card-badge card-badge--alert"><span>⚠️ CPM — Empurrado (Push)</span></div>
+              <h3 class="card-title">O plano dedutivo que desmorona</h3>
+              <p class="card-text">
+                O CPM (1959) "empurra" tarefas por durações teóricas. Quando a realidade física interfere (clima, atraso de material), o modelo colapsa.
+              </p>
+              <p class="card-stat">~50%</p>
+              <p class="card-text" style="margin-top:-0.6rem;">das tarefas planejadas para a semana são de fato realizadas no CPM tradicional.</p>
+            </div>
+            <div class="card card--structure" data-step="2">
+              <div class="card-badge card-badge--active"><span>✅ Last Planner — Puxado (Pull)</span></div>
+              <h3 class="card-title">Remover restrições antes de assumir compromisso</h3>
+              <p class="card-text">
+                O sistema "puxado" só compromete uma tarefa quando suas restrições físicas foram removidas — aproximando o plano da realidade do canteiro.
+              </p>
+              <p class="card-text">
+                <strong>A negação do desperdício:</strong> modelos platônicos assumem axiomaticamente que "empresas eficientes não geram desperdício" — impedindo medi-lo e combatê-lo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 09: A SOLUÇÃO — Equilíbrio + educação -->
+    <section class="slide-section dark" id="slide-09" data-index="8">
+      <div class="slide-frame">
+        <header class="slide-header">
+          <p class="slide-category">09 · A Solução</p>
+          <h2 class="slide-title">Equilíbrio epistemológico e reforma educacional</h2>
+        </header>
+        <div class="slide-content-area" data-content>
+          <div class="grid grid--2-col">
+            <div>
+              <div class="balance-row">
+                <div class="card card--balance plato" data-step="1">Teoria Dedutiva<small>Platão — essencial no design conceitual</small></div>
+                <div class="card card--balance aris" data-step="2">Observação Prática<small>Aristóteles — produção, desperdício, ciclos indutivos</small></div>
+              </div>
+              <p class="balance-fulcrum" data-step="2">Síntese, não exclusão</p>
+            </div>
+            <div class="edu-list">
+              <div class="edu-item" data-step="3"><strong>Não descartar o platonismo:</strong> modelos teóricos e dedução matemática são essenciais na engenharia.</div>
+              <div class="edu-item" data-step="4"><strong>Reequilibrar com o aristotelismo:</strong> foco na produção física real, mitigação de desperdícios e ciclos de aprendizado rápidos.</div>
+              <div class="edu-item" data-step="5"><strong>Reforma educacional:</strong> inserir Filosofia da Ciência e Epistemologia nos currículos de Engenharia e Gestão para ensinar lógica indutiva e abdução.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: DISCUSSÃO CRÍTICA & REFERÊNCIAS -->
+    <section class="slide-section dark" id="slide-10" data-index="9">
+      <div class="slide-frame">
+        <header class="slide-header">
+          <p class="slide-category">10 · Discussão Crítica &amp; Fechamento</p>
+          <h2 class="slide-title">Perguntas para a sala</h2>
+        </header>
+        <div class="slide-content-area" data-content>
+          <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
+            <div class="grid grid--3-col">
+              <div class="card card--dark" data-step="1">
+                <p class="card-number">1</p>
+                <p class="card-text">Quão viável é mudar currículos de engenharia hoje?</p>
+              </div>
+              <div class="card card--dark" data-step="2">
+                <p class="card-number">2</p>
+                <p class="card-text">Lean Construction e BIM integrado conseguem unir o design conceitual (Platão) à produção colaborativa (Aristóteles)?</p>
+              </div>
+              <div class="card card--dark" data-step="3">
+                <p class="card-number">3</p>
+                <p class="card-text">O ensino da nossa universidade é puramente platônico?</p>
+              </div>
+            </div>
+            <p class="discuss-refs" data-step="4">
+              KOSKELA, L.; KAGIOGLOU, M.; et al. <em>On Epistemology of Construction Engineering and Management</em>. 2017.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script type="module" src="dev-panel.js?v=5"></script>
+</body>
+</html>
