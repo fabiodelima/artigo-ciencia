@@ -36,7 +36,7 @@ const rooms = {};
 // O WebSocket usa a mesma porta via upgrade de protocolo.
 const httpServer = http.createServer((req, res) => {
   if (req.url === '/health' || req.url === '/') {
-    const pathname = getPathname(req.url);
+    const pathname = getPathname(req);
     if (pathname === '/health') {
       const status = { status: 'ok', rooms: Object.keys(rooms).length };
       res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -170,8 +170,12 @@ function send(ws, data) {
   }
 }
 
-function getPathname(url) {
-  const pathname = new URL(url, 'http://localhost').pathname;
+function getPathname(req) {
+  const forwardedUri = req.headers['x-forwarded-uri'] || req.headers['x-original-uri'];
+  const source = typeof forwardedUri === 'string' && forwardedUri.length > 0
+    ? forwardedUri
+    : req.url;
+  const pathname = new URL(source, 'http://localhost').pathname;
   if (pathname === BASE_PATH) return '/';
   if (pathname.startsWith(`${BASE_PATH}/`)) {
     return pathname.slice(BASE_PATH.length);
@@ -206,7 +210,7 @@ function tryServeFile(filePath, res) {
 }
 
 function serveStatic(req, res) {
-  const pathname = getPathname(req.url);
+  const pathname = getPathname(req);
   const site = getSiteFromHost(req.headers.host);
   const presenterRoot = path.join(APP_ROOT, 'apresentador');
   const remoteRoot = path.join(APP_ROOT, 'remoto');
