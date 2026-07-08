@@ -134,4 +134,10 @@ Para quem for testar ou continuar o trabalho de design e ensaio da apresentaçã
 - A validação visual por Chrome DevTools ficou bloqueada porque o Chrome da ferramenta não acessou o `localhost` do PowerShell. O `Invoke-WebRequest` local respondeu 200 durante teste com servidor temporário, mas o processo não permaneceu estável nessa sessão.
 
 ### Próximo passo operacional
-- Publicar usando a estratégia registrada no handoff anterior: copiar o workspace para `C:\Users\fabio\AppData\Local\Temp\artigo-ciencia-github`, commitar e dar push para `master`, deixando o Coolify fazer redeploy do app `ktp7qev3j0sgx3tol83cbe7x`.
+- Publicação concluída usando a estratégia registrada no handoff anterior: cópia para `C:\Users\fabio\AppData\Local\Temp\artigo-ciencia-github`, commit e push para `master`.
+- Commit publicado: `470e40a` (`Refine seminar slides and presenter panel`).
+- Deploy Coolify forçado e finalizado: `eipgugy6cmuanci1de6ymle3`, commit `470e40abcef3e0b75ceae2a96733cb8aca4e9b8f`, status `finished`.
+- Rotas públicas validadas com HTTP 200:
+  - `https://fabiollima.com/artigo-ciencia/`
+  - `https://fabiollima.com/artigo-ciencia/apresentador`
+  - `https://fabiollima.com/artigo-ciencia/remoto`
