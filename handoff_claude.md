@@ -45,3 +45,93 @@ Para quem for testar ou continuar o trabalho de design e ensaio da apresentaçã
    - Pressione a tecla `P` no teclado (ou `Ctrl+P`) na aba da apresentação para disparar a visualização de impressão e garanta que os slides se adaptem e diagramem corretamente na folha 1920x1080 horizontal sem quebras de página desalinhadas.
 3. **Sincronização:**
    - Se houver qualquer ajuste nos textos de slides em `index.html`, lembre-se de replicar as alterações no array `SLIDES_DATA` em [apresentador/index.html](file:///c:/Users/fabio/OneDrive/Documentos/SCIN_2026-07-09_Apresentação/apresentacao/apresentador/index.html) e no array `SLIDES` em [remoto/index.html](file:///c:/Users/fabio/OneDrive/Documentos/SCIN_2026-07-09_Apresentação/apresentacao/remoto/index.html).
+
+---
+
+## 4. Handoff de Deploy Web (GitHub + Coolify) - 2026-07-07
+
+### Estado atual
+- Repositorio publicado em `https://github.com/fabiodelima/artigo-ciencia`.
+- App no Coolify: `artigo-ciencia`.
+- UUID do app no Coolify: `ktp7qev3j0sgx3tol83cbe7x`.
+- Branch em deploy: `master`.
+- Ultimo commit publicado durante esta sessao: `0e1b390` (`Respect forwarded URI for routed pages`).
+- Health no Coolify ficou `running:healthy` apos o ultimo redeploy.
+
+### URLs finais esperadas
+- `https://fabiollima.com/artigo-ciencia/` -> apresentacao principal (`apresentacao/index.html`)
+- `https://fabiollima.com/artigo-ciencia/remoto` -> controle remoto (`apresentacao/remoto/index.html`)
+- `https://fabiollima.com/artigo-ciencia/apresentador` -> painel do apresentador (`apresentacao/apresentador/index.html`)
+
+### O que deu errado no meio do caminho
+- Inicialmente foram configuradas rotas separadas no Coolify para:
+  - `/artigo-ciencia`
+  - `/artigo-ciencia/remoto`
+  - `/artigo-ciencia/apresentador`
+- Isso fez o proxy stripar os prefixes de forma independente antes de entregar a requisicao ao Node.
+- Sintoma observado: `.../apresentador` carregava a pagina principal e acabava com hash como `#slide-01`, sinal de que `main.js` do projetor estava rodando no lugar da pagina do apresentador.
+
+### Correcao aplicada
+- O Coolify ficou com apenas uma rota base:
+  - `https://fabiollima.com/artigo-ciencia`
+- O servidor Node em `apresentacao/server/index.js` foi adaptado para:
+  - servir os arquivos estaticos da apresentacao, remoto e apresentador no mesmo container;
+  - entender o prefixo base `/artigo-ciencia`;
+  - usar `x-forwarded-uri` / `x-original-uri` para decidir corretamente entre `/`, `/remoto` e `/apresentador` quando ha proxy no caminho.
+
+### Verificacao feita na sessao
+- Foi feita verificacao HTTP externa com `Invoke-WebRequest` contra as 3 rotas publicas.
+- Os titulos retornados foram:
+  - principal: `On Epistemology of Construction Engineering and Management ...`
+  - remoto: `Controle Remoto - Epistemologia da Construcao`
+  - apresentador: `Painel do Apresentador - Epistemologia da Construcao (Koskela 2017)`
+- Isso confirmou que as 3 rotas estavam respondendo com HTMLs diferentes no fim da sessao.
+
+### Arquivos relevantes para continuar
+- `Dockerfile` na raiz: container unico para servir WS + HTML.
+- `apresentacao/server/index.js`: roteamento HTTP + WebSocket + logica de prefixo/proxy.
+- `apresentacao/main.js`: projetor calcula WebSocket pelo host atual.
+- `apresentacao/remoto/index.html`: remoto calcula WebSocket pelo host atual.
+- `apresentacao/apresentador/index.html`: apresentador calcula WebSocket pelo host atual.
+
+### Observacoes praticas para a proxima sessao
+- Se voltar a haver comportamento estranho nas rotas, conferir primeiro a configuracao de dominios do app no Coolify; ela deve permanecer apenas com a rota base `/artigo-ciencia`.
+- Se o HTML estiver certo mas o navegador parecer insistir no comportamento antigo, suspeitar de cache do browser ou do proxy antes de mexer no Node novamente.
+- O workspace local ainda esta em uma situacao Git meio hibrida por causa do OneDrive:
+  - existe `.git` atual no workspace;
+  - existe tambem `.git.broken-2026-07-07` como sobra da tentativa anterior;
+  - o publish para GitHub foi feito a partir de uma copia temporaria em `C:\Users\fabio\AppData\Local\Temp\artigo-ciencia-github`.
+- Se for continuar publicando da proxima vez, vale decidir se o repo local sera saneado de vez ou se a estrategia continua sendo publicar via copia temporaria.
+
+---
+
+## 5. Handoff de Continuação — Ajustes de Conteúdo/Design (2026-07-08)
+
+### Alterações aplicadas
+- Projetor (`apresentacao/index.html`):
+  - Slide 02 refeito como roadmap por perguntas, sem marcador visual extra em "explícitas"; nota maior, centralizada e com títulos dos cards mais explicativos.
+  - Slide 03 sem chip "Pergunta do artigo".
+  - Slides 04 e 05 ajustados para hierarquia split: categoria/pergunta em nível meta e badges/títulos alinhados entre os dois lados.
+  - Slide 09 reorganizado em duas faixas horizontais: balança em cima e educação/reforma embaixo; cards da balança com mais contraste e sombra.
+- Estilos (`apresentacao/style.css`, `apresentacao/slides-extra.css`):
+  - Cabeçalho com hierarquia mais consistente: categoria estrutural em azul, vermelho restrito a slides de tensão/crítica.
+  - Componentes novos/ajustados usando tokens do `DESIGN.md`.
+- Painel do Apresentador (`apresentacao/apresentador/index.html`):
+  - Dados `SLIDES_DATA` sincronizados com novos títulos e roteiro.
+  - "Timeline de Revelação & Speech" removida do modo estudo.
+  - "Destrinchando o Slide" substituído por "Teoria do Slide", com HTML mais rico: fatos, teoria, listas e leitura crítica.
+  - Modo estudo transformado em split ajustável: prévia/teoria à esquerda e localizador + PDF embutido à direita.
+  - PDF embutido abre direto na página indicada pelo slide; drawer em tela cheia preservado como ação auxiliar.
+  - Removido uso visível de "Console do Apresentador"; o botão de grid agora volta como "Modo Painel".
+- Controle remoto (`apresentacao/remoto/index.html`):
+  - Títulos e falas sincronizados com painel/projetor, incluindo correção do slide 07 para "Quando o platonismo excessivo adoece o projeto".
+
+### Validações feitas
+- `node --check apresentacao/main.js`
+- `node --check apresentacao/server/index.js`
+- Check estático com Node confirmou 10 seções no projetor e títulos/document titles esperados.
+- `rg` confirmou ausência de: `Console do Apresentador`, `Timeline de Revelação`, `Pergunta do artigo`, `🟢`, `Modo Console` em arquivos manuais da apresentação.
+- A validação visual por Chrome DevTools ficou bloqueada porque o Chrome da ferramenta não acessou o `localhost` do PowerShell. O `Invoke-WebRequest` local respondeu 200 durante teste com servidor temporário, mas o processo não permaneceu estável nessa sessão.
+
+### Próximo passo operacional
+- Publicar usando a estratégia registrada no handoff anterior: copiar o workspace para `C:\Users\fabio\AppData\Local\Temp\artigo-ciencia-github`, commitar e dar push para `master`, deixando o Coolify fazer redeploy do app `ktp7qev3j0sgx3tol83cbe7x`.

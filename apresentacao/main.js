@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'letter-spacing:0.05em', 'pointer-events:none', 'user-select:none',
     'transition:opacity 0.5s'
   ].join(';');
-  sessionBadgeEl.innerHTML = `Remoto: <strong style="color:#FF0000;letter-spacing:0.2em">${SESSION_ID}</strong>`;
+  sessionBadgeEl.innerHTML = `Remoto: <strong style="color:var(--color-accent);letter-spacing:0.2em">${SESSION_ID}</strong>`;
   document.body.appendChild(sessionBadgeEl);
 
   let remoteWs = null;

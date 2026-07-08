@@ -99,12 +99,24 @@ body {
 }
 
 .slide-category {
-  font-size: var(--font-size-body);
+  font-size: var(--font-size-small);
   font-weight: 700;
-  color: var(--color-accent);
+  color: var(--color-primary);
   text-transform: uppercase;
   letter-spacing: 0.2em;
   margin-bottom: var(--space-xs);
+}
+
+.slide-section.dark .slide-category {
+  color: var(--color-primary-mid);
+}
+
+/* Vermelho apenas em slides de tensão/patologia/crítica (DESIGN.md §7) */
+#slide-03 .slide-category,
+#slide-07 .slide-category,
+#slide-08 .slide-category,
+#slide-10 .slide-category {
+  color: var(--color-accent);
 }
 
 .slide-title {
@@ -333,6 +345,30 @@ g[data-step].active-step {
   align-items: stretch;
 }
 
+/* Meta do split: kicker (categoria) à esquerda, pergunta à direita.
+   min-height igual nos dois lados garante badges e títulos alinhados. */
+.card--split .split-meta {
+  min-height: 3.4em;
+  line-height: 1.5;
+  margin-bottom: var(--space-l);
+  flex-shrink: 0;
+}
+.card--split .split-kicker {
+  font-size: var(--font-size-caption);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.55);
+}
+.card--split .split-question {
+  font-size: var(--font-size-small);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--color-primary-deep);
+  opacity: 0.65;
+  max-width: 34em;
+}
+
 /* Layout Split (Slides 4 e 5) */
 .card--split {
   padding: 8vh 6vw;
@@ -361,6 +397,19 @@ g[data-step].active-step {
   padding: var(--space-l) var(--space-2xs) var(--space-m);
   min-height: 11rem;
 }
+.card--roadmap .card-step-label {
+  font-size: var(--font-size-caption);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: var(--space-2xs);
+}
+.card--roadmap .card-text {
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  line-height: 1.35;
+}
 .card--roadmap:nth-child(1),
 .card--roadmap:nth-child(5) {
   background: var(--color-accent-soft);
@@ -376,21 +425,24 @@ g[data-step].active-step {
   border-radius: var(--radius-card);
 }
 .card--balance.plato {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: #fff;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-primary-deep);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
 }
 .card--balance.aris {
-  background: rgba(6, 95, 212, 0.12);
-  border: 1px solid rgba(6, 95, 212, 0.35);
-  color: #fff;
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary-mid);
+  color: var(--color-primary-darkest);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
 }
 .card--balance small {
   display: block;
   font-weight: 400;
   font-size: var(--font-size-caption);
   margin-top: var(--space-2xs);
-  opacity: 0.8;
+  opacity: 0.75;
+  color: inherit;
 }
 .card--balance:hover {
   transform: none;

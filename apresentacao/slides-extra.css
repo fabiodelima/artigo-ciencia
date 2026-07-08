@@ -40,7 +40,8 @@
   opacity: 0.28;
 }
 .methodology-note {
-  margin-top: var(--space-l); max-width: 1150px; font-size: var(--font-size-small); line-height: 1.6; color: var(--color-muted);
+  margin-top: var(--space-xl); max-width: 62rem; margin-inline: auto; text-align: center;
+  font-size: var(--font-size-body-lg); line-height: 1.6; color: var(--color-ink);
 }
 .methodology-note strong { color: var(--color-primary-deep); }
 
@@ -78,22 +79,29 @@
   background: rgba(6,95,212,0.12); color: var(--color-ink); border: 1px solid rgba(6,95,212,0.28);
 }
 
-/* --- Solução: balança + educação (Slide 9) --- */
-.balance-row { display: flex; gap: var(--space-s); align-items: stretch; }
+/* --- Solução: duas faixas horizontais (balança em cima, educação embaixo) (Slide 9) --- */
+.solution-stack { width: 100%; display: flex; flex-direction: column; gap: var(--space-xl); }
+.balance-row { display: flex; gap: var(--space-m); align-items: stretch; }
 .balance-fulcrum {
   margin: var(--space-s) auto 0; text-align: center; font-size: var(--font-size-caption); font-weight: 700;
-  color: var(--color-accent-deep); text-transform: uppercase; letter-spacing: 0.1em;
-  background: var(--color-accent-soft); border: 1px solid var(--color-accent);
+  color: var(--color-primary-deep); text-transform: uppercase; letter-spacing: 0.1em;
+  background: var(--color-primary-soft); border: 1px solid var(--color-primary-mid);
   border-radius: var(--radius-pill); padding: var(--space-2xs) var(--space-s);
   width: max-content; max-width: 100%;
 }
-.edu-list { display: flex; flex-direction: column; gap: var(--space-s); }
-.edu-item { position: relative; padding-left: var(--space-m); line-height: 1.55; font-size: var(--font-size-body); color: rgba(255,255,255,0.85); }
+.edu-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-m); }
+.edu-item {
+  position: relative; padding: var(--space-s) var(--space-m) var(--space-s) var(--space-l);
+  line-height: 1.55; font-size: var(--font-size-body); color: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--radius-card);
+}
 .edu-item::before {
-  content: ""; position: absolute; left: 0; top: var(--space-2xs); width: 7px; height: 7px;
-  border-radius: 50%; background: var(--color-accent);
+  content: ""; position: absolute; left: var(--space-s); top: calc(var(--space-s) + 0.5em); width: 7px; height: 7px;
+  border-radius: 50%; background: var(--color-primary-mid);
 }
 .edu-item strong { color: #fff; }
+@media (max-width: 900px) { .edu-list { grid-template-columns: 1fr; } }
 
 /* --- Discussão final (Slide 10) --- */
 .discuss-refs {

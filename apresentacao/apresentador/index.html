@@ -149,7 +149,7 @@
     }
 
     .sync-btn:hover {
-      background: #f76f25;
+      background: var(--color-accent-deep);
     }
 
     .slide-list {
@@ -470,11 +470,63 @@
       border: 1px solid rgba(30, 90, 224, 0.2);
     }
 
-    /* MODO ESTUDO VIEWPORT */
+    /* MODO ESTUDO VIEWPORT — split ajustável: conteúdo | divisor | PDF */
     .estudo-viewport {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 2rem;
+      grid-template-columns: minmax(320px, 1.05fr) 6px minmax(300px, 0.95fr);
+      gap: 1.2rem;
+      align-items: start;
+    }
+
+    .estudo-divider {
+      width: 6px;
+      align-self: stretch;
+      cursor: col-resize;
+      border-radius: 3px;
+      background: var(--color-border);
+      transition: background 0.2s;
+    }
+
+    .estudo-divider:hover,
+    .estudo-divider.dragging {
+      background: var(--color-primary-mid);
+    }
+
+    .col-pdf-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .pdf-panel-frame {
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--color-primary-darkest);
+      height: 68vh;
+    }
+
+    .pdf-panel-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .destrinchando-text ul {
+      margin: 0.4rem 0 0 1.1rem;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .destrinchando-text li { line-height: 1.5; }
+
+    .ref-where {
+      font-size: var(--font-size-small);
+      line-height: 1.5;
+      color: var(--color-primary-deep);
     }
 
     /* MODO APRESENTADOR VIEWPORT */
@@ -484,7 +536,7 @@
       gap: 2rem;
     }
 
-    /* Coluna Esquerda do Modo Estudo: Preview + Timeline */
+    /* Coluna esquerda do Modo Estudo: preview + teoria do slide */
     .col-preview-timeline {
       display: flex;
       flex-direction: column;
@@ -517,7 +569,7 @@
       pointer-events: none;
     }
 
-    /* Timeline de Ações Sequenciais (Steps) */
+    /* Lista de ações sequenciais usada apenas no modo apresentador */
     .timeline-container {
       background: var(--color-surface);
       border: 1px solid var(--color-border);
@@ -623,7 +675,7 @@
       line-height: 1.4;
     }
 
-    /* Coluna Direita do Modo Estudo: Destrinchando + Referências */
+    /* Coluna direita do Modo Estudo: teoria + referências */
     .col-destrinchando {
       display: flex;
       flex-direction: column;
@@ -1126,8 +1178,6 @@
     <!-- Topbar -->
     <header class="topbar">
       <div class="topbar-left">
-        <div class="topbar-title">Console do Apresentador</div>
-        
         <!-- Segmented Mode Control -->
         <div class="mode-selector">
           <button class="mode-btn active" id="btnModeEstudo">📑 Modo Estudo</button>
@@ -1163,7 +1213,7 @@
     <!-- Controles de Rodapé -->
     <footer class="footer-controls" id="footerControls">
       <button class="nav-btn" id="btnPrevSlide" title="Slide Anterior (Left/Up)">⏮ Slide Anterior</button>
-      <span class="nav-progress" id="navProgress">Slide 1 de 12</span>
+      <span class="nav-progress" id="navProgress">Slide 1 de 10</span>
       <button class="nav-btn" id="btnNextSlide" style="background-color: var(--color-accent);" title="Próximo Slide (Right/Space/Down)">Próximo Slide ⏭</button>
     </footer>
   </main>
@@ -1190,11 +1240,19 @@
         title: "Capa / Abertura",
         speaker: "Grupo",
         objective: "Abertura do seminário: apresentar o artigo, o grupo e o tema (os fundamentos filosóficos ocultos das falhas crônicas da construção).",
-        facts: `<strong>Artigo:</strong> KOSKELA, L.; KAGIOGLOU, M.; et al. <em>On Epistemology of Construction Engineering and Management</em> (2017).<br>
-        <strong>Grupo:</strong> Fábio, Louise, Piero, Franciele, Pâmela e Valentina.<br>
-        <p style="font-size:var(--font-size-small); line-height:1.45; margin-top:0.6rem;">Contexto: análise crítica de artigo em nível de mestrado. Tempo-alvo total: 10–15 min (~1m45s por integrante).</p>`,
-        theory: `<strong>Epistemologia:</strong> o estudo de como adquirimos, entendemos e validamos o conhecimento. A tese do artigo é que escolhas epistemológicas inadequadas são a causa-raiz negligenciada dos problemas da construção.`,
+        facts: `<ul>
+          <li><strong>Artigo:</strong> KOSKELA, L.; KAGIOGLOU, M.; et al. <em>On Epistemology of Construction Engineering and Management</em> (2017).</li>
+          <li><strong>Grupo:</strong> Fábio, Louise, Piero, Franciele, Pâmela e Valentina.</li>
+          <li><strong>Contexto:</strong> análise crítica de artigo em nível de mestrado. Tempo-alvo total: 10–15 min (~1m45s por integrante).</li>
+        </ul>`,
+        theory: `<strong>Epistemologia</strong> é o ramo da filosofia que estuda o conhecimento: <em>como adquirimos, entendemos e validamos</em> aquilo que sabemos.
+        <ul>
+          <li><strong>Tese do artigo:</strong> escolhas epistemológicas inadequadas são a causa-raiz negligenciada dos problemas crônicos da construção.</li>
+          <li><strong>Por que importa:</strong> não é "filosofia abstrata" — a epistemologia adotada define como se projeta, planeja e controla obra.</li>
+          <li><strong>Estrutura do texto:</strong> problema prático → raízes históricas e filosóficas → patologias → proposta de equilíbrio.</li>
+        </ul>`,
         refName: "Koskela et al. (2017) — Artigo integral",
+        refWhere: "Título, resumo e introdução na página 1. O termo 'epistemology' é definido logo no primeiro parágrafo da introdução.",
         refPage: "Pág. 1",
         refSearch: "epistemology",
         refFile: "Koskela_2017_Epistemology.pdf",
@@ -1205,13 +1263,25 @@
       {
         index: 1,
         num: "Slide 02",
-        title: "Metodologia da Apresentação",
+        title: "Uma jornada por perguntas",
         speaker: "Fábio",
         objective: "Explicar por que apresentamos por perguntas (e não seção a seção) e prenunciar a jornada de 6 etapas.",
-        facts: `<strong>Abordagem por perguntas:</strong> o próprio artigo é construído como uma progressão — problema prático → raízes históricas/filosóficas → solução.<br>
-        <p style="font-size:var(--font-size-small); line-height:1.45; margin-top:0.6rem;"><strong>Explícitas × implícitas:</strong> apenas 2 perguntas são feitas textualmente pelos autores (🟢); as outras 4 reconstruímos da lógica do texto. Cada slide levanta uma pergunta e entrega a resposta do artigo.</p>`,
-        theory: `<strong>Roadmap:</strong> 1) O Problema Oculto · 2) Bases do Conhecimento · 3) As Origens · 4) A Difusão · 5) As Patologias · 6) A Solução.`,
+        facts: `<ul>
+          <li><strong>Abordagem por perguntas:</strong> o próprio artigo é uma progressão — problema prático → raízes históricas/filosóficas → solução.</li>
+          <li><strong>Explícitas × implícitas:</strong> apenas 2 perguntas são feitas textualmente pelos autores; as outras 4 reconstruímos da lógica do texto.</li>
+          <li><strong>Contrato com a plateia:</strong> cada slide levanta uma pergunta e entrega a resposta do próprio artigo.</li>
+        </ul>`,
+        theory: `<strong>Roadmap das 6 etapas</strong> (cada uma com sua pergunta):
+        <ul>
+          <li><strong>1 · O Problema Oculto</strong> — causas dispersas ou uma raiz comum?</li>
+          <li><strong>2 · Bases do Conhecimento</strong> — de onde vem o conhecimento?</li>
+          <li><strong>3 · As Origens</strong> — quem fundou as duas tradições?</li>
+          <li><strong>4 · A Difusão</strong> — como o platonismo dominou?</li>
+          <li><strong>5 · As Patologias</strong> — onde o excesso adoece a obra?</li>
+          <li><strong>6 · A Solução</strong> — como reequilibrar?</li>
+        </ul>`,
         refName: "Koskela et al. (2017) — Introdução",
+        refWhere: "A pergunta explícita sobre causas dispersas versus causa-raiz está no final do primeiro parágrafo da introdução (página 1), na expressão 'root causes'.",
         refPage: "Pág. 1",
         refSearch: "root causes",
         refFile: "Koskela_2017_Epistemology.pdf",
@@ -1223,14 +1293,21 @@
       {
         index: 2,
         num: "Slide 03",
-        title: "O Problema Oculto (Pergunta 1)",
+        title: "Causas dispersas ou uma raiz comum?",
         speaker: "Fábio",
         objective: "Convencer a plateia de que os sintomas dispersos da construção têm uma única causa-raiz: escolhas epistemológicas inadequadas.",
-        facts: `<strong>🟢 Pergunta explícita dos autores (Seção 1):</strong> as causas são dispersas ou existe uma causa-raiz concentrada?<br>
-        <strong>Sintomas visíveis:</strong> atrasos crônicos, estouro de orçamento, baixa qualidade, falhas na cadeia de suprimentos, CPM ineficaz, silos.<br>
-        <p style="font-size:var(--font-size-small); line-height:1.45; margin-top:0.6rem;"><strong>Metáfora do iceberg:</strong> os sintomas são a ponta visível; a base submersa é a epistemologia inadequada.</p>`,
-        theory: `<strong>→ Resposta do artigo:</strong> existe uma causa-raiz sistematicamente negligenciada — as escolhas epistemológicas inadequadas na engenharia e na gestão. O artigo não é "filosofia barata": é um diagnóstico prático de falhas de engenharia.`,
+        facts: `<ul>
+          <li><strong>Pergunta explícita dos autores (Seção 1):</strong> as causas são dispersas ou existe uma causa-raiz concentrada que valeria esforço remediador?</li>
+          <li><strong>Sintomas visíveis:</strong> atrasos crônicos, estouro de orçamento, baixa qualidade, falhas na cadeia de suprimentos, CPM ineficaz, silos disciplinares.</li>
+          <li><strong>Metáfora do iceberg:</strong> os sintomas são a ponta visível; a base submersa (que sustenta todos) é a epistemologia inadequada.</li>
+        </ul>`,
+        theory: `<strong>→ Resposta do artigo:</strong> existe <em>uma</em> causa-raiz sistematicamente negligenciada — as escolhas epistemológicas inadequadas na engenharia e na gestão.
+        <ul>
+          <li><strong>Argumento:</strong> tratamos os sintomas isoladamente há décadas (novas ferramentas, novos contratos) sem atacar a base comum.</li>
+          <li><strong>Defesa antecipada:</strong> não é "filosofia barata" — é diagnóstico prático de falhas de engenharia, com exemplos verificáveis (CPM, silos, desperdício).</li>
+        </ul>`,
         refName: "Koskela et al. (2017) — Introdução",
+        refWhere: "Introdução, página 1: o parágrafo inicial lista os problemas crônicos do setor e formula a pergunta sobre causa-raiz; o termo 'epistemological' aparece na sequência como resposta.",
         refPage: "Pág. 1",
         refSearch: "epistemological",
         refFile: "Koskela_2017_Epistemology.pdf",
@@ -1244,15 +1321,23 @@
       {
         index: 3,
         num: "Slide 04",
-        title: "As Bases do Conhecimento (Pergunta 2)",
+        title: "Platonismo × Aristotelismo",
         speaker: "Louise",
         objective: "Contrastar platonismo (dedução) e aristotelismo (indução/abdução) como as duas fontes rivais de conhecimento.",
-        facts: `<strong>🟢 Pergunta explícita dos autores (Seção 3):</strong> de onde vem o conhecimento para embasar design e planejamento?<br>
-        <strong>Platonismo (racionalismo):</strong> conhecimento vem das ideias abstratas; raciocínio dedutivo; o físico é imperfeito.<br>
-        <strong>Aristotelismo (empirismo):</strong> conhecimento começa na observação; indução e abdução; ciclo de aprendizado.`,
-        theory: `<strong>→ Resposta do artigo:</strong> as duas fontes são rivais, mas o problema atual é o predomínio excessivo do platonismo. A resposta madura é equilibrar as duas.<br>
-        <p style="font-size:var(--font-size-small); line-height:1.45; margin-top:0.6rem;"><strong>Exemplo:</strong> no platonismo, o projetista desenha o plano perfeito e espera que a obra se adapte; no aristotelismo, o plano se adapta às restrições físicas.</p>`,
+        facts: `<strong>Pergunta explícita dos autores (Seção 3):</strong> de onde vem o conhecimento para embasar design e planejamento?
+        <ul>
+          <li><strong>Platonismo (racionalismo):</strong> o conhecimento vem das ideias abstratas; raciocínio <em>dedutivo</em> (axioma → aplicação); o mundo físico é visto como cópia imperfeita.</li>
+          <li><strong>Aristotelismo (empirismo):</strong> o conhecimento começa na observação do mundo real; raciocínio <em>indutivo</em> (fatos → conceitos) e <em>abdutivo</em> (hipótese/diagnóstico); ciclo contínuo de aprendizado.</li>
+        </ul>`,
+        theory: `<strong>→ Resposta do artigo:</strong> as duas fontes são rivais, mas o problema atual é o predomínio excessivo do platonismo; a resposta madura é equilibrá-las.
+        <ul>
+          <li><strong>Dedução:</strong> conclusão garantida pelas premissas (matemática, modelos).</li>
+          <li><strong>Indução:</strong> generalização a partir de casos observados (estatística, experimentos).</li>
+          <li><strong>Abdução:</strong> a melhor explicação para um fato surpreendente (diagnóstico de obra, perícia).</li>
+          <li><strong>Exemplo prático:</strong> no platonismo o projetista desenha o plano perfeito e espera que a obra se adapte; no aristotelismo o plano se adapta às restrições físicas encontradas.</li>
+        </ul>`,
         refName: "Koskela et al. (2017) — Seção 3",
+        refWhere: "Seção 3, página 3: a discussão de Platão e Aristóteles começa onde o texto cita 'Plato'; os três modos de raciocínio (dedução, indução, abdução) são apresentados nos parágrafos seguintes.",
         refPage: "Pág. 3",
         refSearch: "Plato",
         refFile: "Koskela_2017_Epistemology.pdf",
@@ -1264,14 +1349,20 @@
       {
         index: 4,
         num: "Slide 05",
-        title: "As Origens Intelectuais",
+        title: "Rankine × Shewhart",
         speaker: "Piero",
         objective: "Mostrar que engenharia (Rankine, platônica) e gestão da produção (Shewhart, aristotélica) nascem de heranças opostas que ainda colidem no canteiro.",
-        facts: `<strong>William Rankine (séc. XIX):</strong> pai da engenharia científica; física matemática para prever estruturas; foco absoluto no design; tratou a execução manual como imperfeição inferior.<br>
-        <strong>Walter Shewhart (séc. XX):</strong> pai da qualidade; controle empírico da variabilidade física; criou o controle estatístico de processo e o ciclo PDCA; foco na produção.`,
-        theory: `<strong>→ Resposta do artigo:</strong> a engenharia herdou a mentalidade platônica de Rankine; a gestão de produção evoluiu com o aristotelismo de Shewhart. Esse choque de heranças explica por que projeto e execução brigam tanto.<br>
-        <p style="font-size:var(--font-size-small); line-height:1.45; margin-top:0.6rem;"><strong>Dica visual:</strong> este slide reaproveita a divisão Platão/Aristóteles do slide anterior — Rankine é o herdeiro concreto do lado platônico; Shewhart, do aristotélico.</p>`,
+        facts: `<ul>
+          <li><strong>William Rankine (séc. XIX):</strong> pai da engenharia científica; aplicou física matemática para prever o comportamento de estruturas; foco absoluto no <em>design</em>; tratou a execução manual como imperfeição inferior.</li>
+          <li><strong>Walter Shewhart (séc. XX):</strong> pai da qualidade; controle <em>empírico</em> da variabilidade física na produção; criou o controle estatístico de processo (CEP) e o ciclo PDCA.</li>
+        </ul>`,
+        theory: `<strong>→ Resposta do artigo:</strong> a engenharia herdou a mentalidade platônica de Rankine; a gestão da produção evoluiu com o aristotelismo de Shewhart.
+        <ul>
+          <li><strong>Consequência:</strong> esse choque de heranças explica por que projeto e execução "brigam" até hoje no canteiro.</li>
+          <li><strong>Dica visual:</strong> o slide reaproveita a divisão Platão/Aristóteles do anterior — Rankine é o herdeiro concreto do lado platônico; Shewhart, do aristotélico.</li>
+        </ul>`,
         refName: "Koskela et al. (2017) — Seção 2",
+        refWhere: "Seção 2, página 2: o histórico da engenharia científica cita 'Rankine' nominalmente; Shewhart e o controle estatístico aparecem na sequência do mesmo bloco histórico.",
         refPage: "Pág. 2",
         refSearch: "Rankine",
         refFile: "Koskela_2017_Epistemology.pdf",
@@ -1283,13 +1374,21 @@
       {
         index: 5,
         num: "Slide 06",
-        title: "A Difusão do Platonismo",
+        title: "Como o platonismo passou a dominar",
         speaker: "Franciele",
         objective: "Explicar como, no pós-1945, o platonismo virou paradigma dominante enquanto o aristotelismo ficou à margem.",
-        facts: `<strong>Via Expressa (dominante):</strong> reforma curricular da engenharia (ciências matemáticas aplicadas); relatórios Ford e Carnegie (1959) empurrando a gestão para métodos quantitativos e economia neoclássica com axiomas de "mercados perfeitos" e "decisor racional ótimo".<br>
-        <strong>Via de Resistência (marginal):</strong> movimento da Qualidade no Japão (Deming/Toyota) e depois Lean Construction, focados na observação direta da produção (Genba).`,
-        theory: `<strong>→ Resposta do artigo:</strong> reformas educacionais e os relatórios de 1959 consolidaram o platonismo como paradigma dominante; o aristotelismo sobreviveu à margem, no chão de fábrica.`,
+        facts: `<ul>
+          <li><strong>Via Expressa (dominante):</strong> reforma curricular da engenharia (ciências matemáticas aplicadas) + relatórios Ford e Carnegie (1959) empurrando a gestão para métodos quantitativos.</li>
+          <li><strong>Axiomas herdados:</strong> economia neoclássica com "mercados perfeitos" e "decisor racional ótimo" — premissas dedutivas, não observadas.</li>
+          <li><strong>Via de Resistência (marginal):</strong> movimento da Qualidade no Japão (Deming/Toyota) e depois Lean Construction, baseados na observação direta da produção (<em>Genba</em>).</li>
+        </ul>`,
+        theory: `<strong>→ Resposta do artigo:</strong> reformas educacionais e os relatórios de 1959 consolidaram o platonismo como paradigma dominante; o aristotelismo sobreviveu à margem, no chão de fábrica.
+        <ul>
+          <li><strong>Mecanismo:</strong> quem forma engenheiros e gestores define a epistemologia do setor — a difusão foi via currículo, não via canteiro.</li>
+          <li><strong>Ironia histórica:</strong> a via "marginal" japonesa é justamente a que gerou os maiores ganhos de produtividade documentados.</li>
+        </ul>`,
         refName: "Koskela et al. (2017) — Seção 3",
+        refWhere: "Seção 3, página 4: os relatórios Ford e Carnegie são citados nominalmente ('Carnegie'); o contraste com o movimento da Qualidade vem nos parágrafos seguintes.",
         refPage: "Pág. 4",
         refSearch: "Carnegie",
         refFile: "Koskela_2017_Epistemology.pdf",
@@ -1303,13 +1402,20 @@
       {
         index: 6,
         num: "Slide 07",
-        title: "Patologias na Construção (I)",
+        title: "Quando o platonismo excessivo adoece o projeto",
         speaker: "Pâmela",
         objective: "Detalhar duas patologias do platonismo excessivo: a obsessão pelo design e a mentalidade de silo.",
-        facts: `<strong>Obsessão pelo design:</strong> detalha-se o plano no papel ignorando a construtibilidade física; o projetista "joga" as plantas por cima do muro para os operários resolverem a execução.<br>
-        <strong>Mentalidade de silo:</strong> a fragmentação super-especializada faz cada disciplina (estruturas, elétrica, hidráulica) trabalhar isolada, sem colaboração real no design.`,
-        theory: `<strong>Conexão:</strong> ambas decorrem de tratar o conhecimento como algo que desce do abstrato (projeto) para o concreto (obra), sem retroalimentação da realidade física.`,
+        facts: `<ul>
+          <li><strong>Obsessão pelo design:</strong> detalha-se o plano no papel ignorando a construtibilidade física; o projetista "joga" as plantas por cima do muro para a execução se virar.</li>
+          <li><strong>Mentalidade de silo:</strong> a fragmentação superespecializada faz cada disciplina (estruturas, elétrica, hidráulica) trabalhar isolada, sem colaboração real no design.</li>
+        </ul>`,
+        theory: `<strong>Conexão epistemológica:</strong> ambas as patologias decorrem de tratar o conhecimento como algo que <em>desce</em> do abstrato (projeto) para o concreto (obra), sem retroalimentação.
+        <ul>
+          <li><strong>Muro do projeto:</strong> é a dedução sem ciclo de volta — a realidade nunca corrige o modelo.</li>
+          <li><strong>Silos:</strong> cada especialidade otimiza seu modelo abstrato local; ninguém observa o todo físico.</li>
+        </ul>`,
         refName: "Koskela et al. (2017) — Seção 4",
+        refWhere: "Seção 4, página 5: as patologias de projeto são discutidas no bloco sobre 'design'; a fragmentação disciplinar aparece no mesmo trecho.",
         refPage: "Pág. 5",
         refSearch: "design",
         refFile: "Koskela_2017_Epistemology.pdf",
@@ -1321,14 +1427,22 @@
       {
         index: 7,
         num: "Slide 08",
-        title: "Patologias na Construção (II)",
+        title: "A negação do desperdício e a falha do CPM",
         speaker: "Pâmela & Valentina",
         objective: "Mostrar a negação do desperdício e a falha sistêmica do CPM (push) frente ao Last Planner (pull).",
-        facts: `<strong>Negação do desperdício:</strong> modelos econômicos platônicos assumem axiomaticamente que "empresas eficientes não produzem desperdício", impedindo o setor de medir e combater perdas.<br>
-        <strong>Falha do CPM (1959):</strong> plano de rede dedutivo que "empurra" (push) tarefas por durações teóricas; colapsa diante de clima, atraso de material etc. Estudos: só ~50% das tarefas semanais planejadas se realizam.<br>
-        <strong>Last Planner:</strong> sistema "puxado" (pull) que remove restrições antes de assumir o compromisso de executar.`,
-        theory: `<strong>→ Resposta do artigo:</strong> a herança platônica (planejar dedutivamente e negar o desperdício) produz sistemas que se descolam da realidade física; a lente aristotélica (Last Planner, medição de perdas) reaproxima plano e canteiro.`,
+        facts: `<ul>
+          <li><strong>Negação do desperdício:</strong> modelos econômicos platônicos assumem por axioma que "empresas eficientes não produzem desperdício" — logo, ninguém o mede nem combate.</li>
+          <li><strong>Falha do CPM (1959):</strong> plano de rede dedutivo que "empurra" (<em>push</em>) tarefas por durações teóricas; colapsa diante de clima, atraso de material etc.</li>
+          <li><strong>Estatística-chave:</strong> só ~50% das tarefas semanais planejadas no CPM tradicional de fato se realizam.</li>
+          <li><strong>Last Planner:</strong> sistema "puxado" (<em>pull</em>) que remove restrições físicas <em>antes</em> de assumir o compromisso de executar.</li>
+        </ul>`,
+        theory: `<strong>→ Resposta do artigo:</strong> a herança platônica (planejar dedutivamente e negar o desperdício) produz sistemas que se descolam da realidade física; a lente aristotélica reaproxima plano e canteiro.
+        <ul>
+          <li><strong>Push × Pull:</strong> push = o modelo dita a realidade; pull = a realidade autoriza o modelo.</li>
+          <li><strong>Ponto de mestrado:</strong> o Last Planner é epistemologia aplicada — indução (medir PPC) + abdução (diagnosticar restrições).</li>
+        </ul>`,
         refName: "Koskela et al. (2017) — Seção 4",
+        refWhere: "Seção 4, página 6: o CPM é tratado no trecho que cita 'Critical Path'; a estatística de ~50% e o contraste com o Last Planner estão no mesmo bloco.",
         refPage: "Pág. 6",
         refSearch: "Critical Path",
         refFile: "Koskela_2017_Epistemology.pdf",
@@ -1340,14 +1454,21 @@
       {
         index: 8,
         num: "Slide 09",
-        title: "A Solução",
+        title: "Equilíbrio epistemológico e reforma educacional",
         speaker: "Valentina",
         objective: "Apresentar a proposta dos autores: equilíbrio epistemológico (síntese, não exclusão) e reforma educacional.",
-        facts: `<strong>Síntese e não exclusão:</strong> os autores não pedem o descarte do platonismo — modelos teóricos e dedução são essenciais no design conceitual.<br>
-        <strong>Equilíbrio epistemológico:</strong> reequilibrar trazendo o aristotelismo (produção real, mitigação de desperdício, ciclos indutivos rápidos).<br>
-        <strong>Reforma educacional:</strong> inserir Filosofia da Ciência e Epistemologia nos currículos de Engenharia e Gestão para ensinar lógica indutiva e abdução.`,
-        theory: `<strong>→ Resposta do artigo:</strong> a saída não é escolher um lado, mas equilibrar os dois — e a alavanca de longo prazo é a educação.`,
+        facts: `<ul>
+          <li><strong>Síntese, não exclusão:</strong> os autores não pedem o descarte do platonismo — modelos teóricos e dedução são essenciais no design conceitual.</li>
+          <li><strong>Equilíbrio epistemológico:</strong> reequilibrar trazendo o aristotelismo — produção real, mitigação de desperdício, ciclos indutivos rápidos.</li>
+          <li><strong>Reforma educacional:</strong> inserir Filosofia da Ciência e Epistemologia nos currículos de Engenharia e Gestão, ensinando lógica indutiva e abdução.</li>
+        </ul>`,
+        theory: `<strong>→ Resposta do artigo:</strong> a saída não é escolher um lado, mas equilibrar os dois — e a alavanca de longo prazo é a educação.
+        <ul>
+          <li><strong>Por que educação:</strong> a difusão do platonismo aconteceu via currículo (slide 06); a correção, portanto, também passa pelo currículo.</li>
+          <li><strong>Imagem da balança:</strong> teoria dedutiva e observação prática nos dois pratos; a síntese é o fiel da balança.</li>
+        </ul>`,
         refName: "Koskela et al. (2017) — Conclusão",
+        refWhere: "Conclusão, página 7: a proposta de equilíbrio usa o termo 'balance'; a recomendação educacional fecha o texto.",
         refPage: "Pág. 7",
         refSearch: "balance",
         refFile: "Koskela_2017_Epistemology.pdf",
@@ -1360,16 +1481,23 @@
       {
         index: 9,
         num: "Slide 10",
-        title: "Discussão Crítica & Fechamento",
+        title: "Perguntas para a sala",
         speaker: "Grupo",
         objective: "Abrir a discussão com três perguntas provocativas e fechar com a referência bibliográfica.",
-        facts: `<strong>Perguntas para a sala:</strong><br>
-        1) Quão viável é mudar currículos de engenharia hoje?<br>
-        2) Lean Construction e BIM integrado conseguem unir o design conceitual (Platão) à produção colaborativa (Aristóteles)?<br>
-        3) O ensino da nossa universidade é puramente platônico?`,
-        theory: `<strong>Ponte prática:</strong> Lean Construction e BIM integrado são tentativas concretas de unir o design conceitual à produção colaborativa — exatamente o equilíbrio que o artigo defende.`,
+        facts: `<strong>Perguntas para a sala:</strong>
+        <ul>
+          <li>Quão viável é mudar currículos de engenharia hoje?</li>
+          <li>Lean Construction e BIM integrado conseguem unir o design conceitual (Platão) à produção colaborativa (Aristóteles)?</li>
+          <li>O ensino da nossa universidade é puramente platônico?</li>
+        </ul>`,
+        theory: `<strong>Ponte prática:</strong> Lean Construction e BIM integrado são tentativas concretas de unir o design conceitual à produção colaborativa — exatamente o equilíbrio que o artigo defende.
+        <ul>
+          <li><strong>Referência:</strong> KOSKELA, L.; KAGIOGLOU, M.; et al. <em>On Epistemology of Construction Engineering and Management</em>. 2017.</li>
+          <li><strong>Fechamento:</strong> agradecer e conduzir o debate a partir das três perguntas.</li>
+        </ul>`,
         refName: "Koskela et al. (2017) — Artigo integral",
-        refPage: "Pág. 1",
+        refWhere: "As perguntas são nossas (síntese do grupo); a base está na conclusão do artigo, página 7.",
+        refPage: "Pág. 7",
         refSearch: "conclusion",
         refFile: "Koskela_2017_Epistemology.pdf",
         steps: [
@@ -1521,27 +1649,6 @@
           cardArticle.className = `slide-note-card ${i === 0 ? 'active' : ''}`;
           cardArticle.dataset.slide = i;
 
-          // Construir a Timeline de Steps
-          let timelineHtml = '';
-          slide.steps.forEach((step, stepIdx) => {
-            const stepNum = stepIdx + 1;
-            timelineHtml += `
-              <div class="timeline-node" data-step-node="${stepNum}">
-                <div class="timeline-bullet"></div>
-                <div class="timeline-content">
-                  <div class="step-header-row" style="display:flex; justify-content:space-between; align-items:center;">
-                    <span class="step-tag">Ação ${stepNum}</span>
-                    <button class="btn-pdf-drawer-trigger" style="margin:0; padding:0.15rem 0.4rem; font-size:var(--font-size-caption);" onclick="openPdf('${slide.refFile}', '${slide.refSearch}', ${i}, '${slide.refPage}')">
-                      📄 Citação
-                    </button>
-                  </div>
-                  <p class="step-desc">${step.desc}</p>
-                  <p class="step-speech">"${step.speech}"</p>
-                </div>
-              </div>
-            `;
-          });
-
           // Construir Lista de Talking Points para o Modo Apresentador
           let talkingPointsListHtml = '';
           slide.steps.forEach((step, stepIdx) => {
@@ -1562,40 +1669,38 @@
               <div class="presenter-indicator ${presenterClass}">${slide.speaker}</div>
             </div>
 
-            <!-- VIEWPORT 1: MODO ESTUDO -->
+            <!-- VIEWPORT 1: MODO ESTUDO (conteúdo | divisor ajustável | PDF) -->
             <div class="estudo-viewport" id="estudo-${i}">
               <div class="col-preview-timeline">
                 <div class="slide-thumbnail-wrapper">
                   <iframe data-src="../index.html?presenter=true#slide-${slideNumStr}"></iframe>
                 </div>
-                <div class="timeline-container">
-                  <span class="timeline-title">🎯 Timeline de Revelação & Speech</span>
-                  <div class="timeline">
-                    ${timelineHtml}
-                  </div>
-                </div>
-              </div>
-              <div class="col-destrinchando">
                 <div class="destrinchando-box">
-                  <h3 class="destrinchando-title">Destrinchando o Slide</h3>
+                  <h3 class="destrinchando-title">Teoria do Slide</h3>
                   <div class="destrinchando-section">
-                    <h4>🍇 Fatos do Caso (Empírico)</h4>
+                    <h4>📌 Conteúdo e fatos</h4>
                     <div class="destrinchando-text">${slide.facts}</div>
                   </div>
                   <div class="destrinchando-section">
-                    <h4>💡 Teoria Acadêmica (Mestrado)</h4>
+                    <h4>💡 Teoria e leitura crítica</h4>
                     <div class="destrinchando-text">${slide.theory}</div>
                   </div>
                 </div>
+              </div>
+              <div class="estudo-divider" title="Arraste para ajustar"></div>
+              <div class="col-pdf-panel">
                 <div class="localizador-box">
                   <div class="localizador-header">
-                    <span class="ref-title">📖 Localizador de Referências</span>
+                    <span class="ref-title">📖 Onde está no artigo</span>
                     <span class="ref-page">${slide.refPage}</span>
                   </div>
-                  <p class="destrinchando-text" style="font-size:var(--font-size-small); font-weight:600; margin-bottom: 0.8rem;">Artigo: ${slide.refName}</p>
+                  <p class="ref-where">${slide.refWhere}</p>
                   <button class="btn-pdf-drawer-trigger" onclick="openPdf('${slide.refFile}', '${slide.refSearch}', ${i}, '${slide.refPage}')">
-                    📚 Abrir PDF Integrado (${slide.refPage})
+                    📚 Abrir PDF em tela cheia (${slide.refPage})
                   </button>
+                </div>
+                <div class="pdf-panel-frame">
+                  <iframe data-src="../material/${slide.refFile}#page=${(slide.refPage.match(/\d+/) || ['1'])[0]}"></iframe>
                 </div>
               </div>
             </div>
@@ -1671,12 +1776,11 @@
           card.classList.toggle('active', isActive);
 
           if (isActive) {
-            // Lazy load do iframe do slide
-            const iframe = card.querySelector('.slide-thumbnail-wrapper iframe[data-src]');
-            if (iframe) {
+            // Lazy load dos iframes do card (thumbnail do slide + PDF na página certa)
+            card.querySelectorAll('iframe[data-src]').forEach(iframe => {
               iframe.src = iframe.dataset.src;
               iframe.removeAttribute('data-src');
-            }
+            });
 
             // Exibir a viewport correta de acordo com o modo ativo
             const estudoViewport = card.querySelector('.estudo-viewport');
@@ -1799,7 +1903,7 @@
         isGridView = !isGridView;
 
         if (isGridView) {
-          btnToggleView.textContent = "🎴 Modo Console";
+          btnToggleView.textContent = "🎴 Modo Painel";
           footerControls.style.display = "none";
           noteCards.forEach(card => card.classList.remove('active'));
           gridViewContainer.classList.add('active');
@@ -1818,7 +1922,7 @@
                 <span class="grid-card-title">${slide.title}</span>
                 <span class="presenter-badge ${presenterClass}">${slide.speaker}</span>
               </div>
-              <div class="estudo-viewport" style="display:grid;">
+              <div class="estudo-viewport" style="display:grid; grid-template-columns: 1fr 1fr;">
                 <div class="col-preview-timeline">
                   <div class="slide-thumbnail-wrapper">
                     <iframe data-src="../index.html?presenter=true#slide-${slideNumStr}"></iframe>
@@ -1827,11 +1931,11 @@
                 <div class="col-destrinchando">
                   <div class="destrinchando-box" style="padding:1.2rem;">
                     <div class="destrinchando-section">
-                      <h4>🍇 Fatos do Caso</h4>
+                      <h4>📌 Conteúdo e fatos</h4>
                       <div class="destrinchando-text" style="font-size:var(--font-size-small);">${slide.facts}</div>
                     </div>
                     <div class="destrinchando-section" style="margin-top:0.6rem;">
-                      <h4>💡 Teoria Embasadora</h4>
+                      <h4>💡 Teoria e leitura crítica</h4>
                       <div class="destrinchando-text" style="font-size:var(--font-size-small);">${slide.theory}</div>
                     </div>
                   </div>
@@ -1957,6 +2061,29 @@
       }
 
       window.addEventListener('resize', scaleThumbnails);
+
+      // ── DIVISOR AJUSTÁVEL DO SPLIT (Modo Estudo) ───────────────────────────
+      document.addEventListener('pointerdown', (e) => {
+        const divider = e.target.closest('.estudo-divider');
+        if (!divider) return;
+        e.preventDefault();
+        const viewport = divider.parentElement;
+        divider.classList.add('dragging');
+
+        const onMove = (ev) => {
+          const rect = viewport.getBoundingClientRect();
+          const pct = Math.min(75, Math.max(25, ((ev.clientX - rect.left) / rect.width) * 100));
+          viewport.style.gridTemplateColumns = `${pct}% 6px minmax(0, 1fr)`;
+          scaleThumbnails();
+        };
+        const onUp = () => {
+          divider.classList.remove('dragging');
+          document.removeEventListener('pointermove', onMove);
+          document.removeEventListener('pointerup', onUp);
+        };
+        document.addEventListener('pointermove', onMove);
+        document.addEventListener('pointerup', onUp);
+      });
 
       // Inicialização
       showSlide(0);
