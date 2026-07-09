@@ -347,11 +347,13 @@ g[data-step].active-step {
 
 .card--tension,
 .card--accent {
-  background: linear-gradient(180deg, rgba(255, 0, 0, 0.1) 0%, var(--color-surface) 76%);
+  background-color: var(--color-surface);
+  background-image: linear-gradient(180deg, #FFE6E6 0%, var(--color-surface) 76%);
 }
 .card--tension:hover,
 .card--accent:hover {
-  background: linear-gradient(180deg, rgba(255, 0, 0, 0.14) 0%, var(--color-surface) 76%);
+  background-color: var(--color-surface);
+  background-image: linear-gradient(180deg, #FFDBDB 0%, var(--color-surface) 76%);
 }
 
 .card--dark {
@@ -410,7 +412,11 @@ g[data-step].active-step {
 
 /* Layout Split (Slides 4 e 5) */
 .card--split {
-  padding: 8vh 6vw;
+  padding:
+    var(--split-pad-top, 8vh)
+    var(--split-pad-right, 6vw)
+    var(--split-pad-bottom, 8vh)
+    var(--split-pad-left, 6vw);
   height: 100%;
   border-radius: 0;
   border: none;
