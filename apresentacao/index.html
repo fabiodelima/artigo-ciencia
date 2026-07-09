@@ -319,32 +319,30 @@
           <h2 class="slide-title">Causas dispersas ou uma raiz comum?</h2>
         </header>
         <div class="slide-content-area" data-content>
-          <div class="grid grid--2-col slide-03-layout">
-            <div class="slide-03-copy">
-              <blockquote class="article-quote" data-step="1">
-                <p>...é necessário saber se as causas-raiz são <strong>abundantes e espalhadas</strong> por muitos domínios, ou se existem algumas causas-raiz maiores que poderiam ser remediadas com poucos esforços concentrados.</p>
-                <footer>koskela et al. (2017), introdução · tradução nossa</footer>
-              </blockquote>
-              <div class="callout callout--epistemic" data-step="4">
+          <div class="grid grid--2-col">
+            <div>
+              <p class="big-question" data-step="1">
+                As causas dos problemas da construção são <em>abundantes e dispersas</em>, ou existe uma <em>causa-raiz</em> que poderia ser remediada com esforço concentrado?
+              </p>
+              <div class="callout" data-step="4">
                 <p class="callout-label">→ Resposta do artigo</p>
-                <p><strong>Epistemologia</strong> é como adquirimos e validamos o que sabemos. Aqui, ela define como projetamos, planejamos e controlamos a obra. A tese: existe <strong>uma causa-raiz negligenciada</strong> — escolhas epistemológicas inadequadas.</p>
+                <p>Existe <strong>uma</strong> causa-raiz sistematicamente negligenciada: as <strong>escolhas epistemológicas inadequadas</strong> na engenharia e na gestão.</p>
               </div>
             </div>
-            <div class="iceberg-panel">
-              <div class="iceberg-visual">
-                <div class="iceberg-waterline" data-step="2"></div>
-                <div class="iceberg-mass iceberg-top" data-step="2"></div>
-                <div class="iceberg-mass iceberg-bottom" data-step="3"></div>
-                <p class="ice-tag" data-step="2">Sintomas visíveis</p>
-                <div class="ice-symptoms" data-step="2">
-                  <span>Atrasos</span>
-                  <span>Custos</span>
-                  <span>Baixa qualidade</span>
-                  <span>Silos</span>
-                  <span>CPM ineficaz</span>
-                  <span>Suprimentos</span>
-                </div>
-                <p class="ice-root-label" data-step="3">Base submersa: epistemologia inadequada</p>
+            <div>
+              <p class="ice-tag" data-step="2">Sintomas visíveis (a ponta do iceberg)</p>
+              <div class="ice-symptoms" data-step="2">
+                <span>Atrasos crônicos</span>
+                <span>Estouro de orçamento</span>
+                <span>Baixa qualidade</span>
+                <span>Falhas na cadeia de suprimentos</span>
+                <span>CPM ineficaz</span>
+                <span>Silos</span>
+              </div>
+              <div class="iceberg-line" data-step="3"><span>linha d'água</span></div>
+              <div class="callout callout--root" data-step="3">
+                <strong>Epistemologia inadequada</strong>
+                <small>Como entendemos, adquirimos e validamos o conhecimento na nossa disciplina — a base submersa que sustenta todos os sintomas.</small>
               </div>
             </div>
           </div>
@@ -535,30 +533,21 @@
           <h2 class="slide-title">Quando o platonismo excessivo adoece o projeto</h2>
         </header>
         <div class="slide-content-area" data-content>
-          <div class="pathology-wall">
-            <div class="pathology-stage" data-step="1">
-              <div class="pathology-project">
-                <div class="pathology-label">Projeto</div>
-                <div class="pathology-board">
-                  <span>Planta "perfeita"</span>
-                  <span>Modelo abstrato</span>
-                </div>
-              </div>
-              <div class="pathology-wall-divider" aria-hidden="true"></div>
-              <div class="pathology-site">
-                <div class="pathology-label">Obra</div>
-                <div class="pathology-site-box">restrições físicas, improvisos e retrabalho</div>
-              </div>
-              <div class="pathology-throw" aria-hidden="true">
-                <span class="throw-sheet">folhas do projeto</span>
-              </div>
+          <div class="grid grid--2-col">
+            <div class="card card--tension" data-step="1">
+              <div class="card-badge card-badge--alert"><span>🧱 Obsessão pelo Design</span></div>
+              <h3 class="card-title">O muro do projeto perfeito</h3>
+              <p class="card-text">
+                Detalha-se o plano no papel ignorando a construtibilidade física. O projetista "joga" as plantas por cima do muro — e os operários do outro lado que resolvam a execução.
+              </p>
             </div>
-            <div class="pathology-silos" data-step="2">
-              <div class="silo-card">Estruturas</div>
-              <div class="silo-card">Elétrica</div>
-              <div class="silo-card">Hidráulica</div>
+            <div class="card card--tension" data-step="2">
+              <div class="card-badge card-badge--alert"><span>🧩 Mentalidade de Silo</span></div>
+              <h3 class="card-title">Fragmentação do conhecimento</h3>
+              <p class="card-text">
+                A superespecialização faz cada disciplina (estruturas, elétrica, hidráulica) trabalhar isolada, sem colaboração real durante o design.
+              </p>
             </div>
-            <p class="pathology-summary" data-step="2">O conhecimento só desce do abstrato para o concreto; a realidade nunca corrige o modelo em tempo.</p>
           </div>
         </div>
       </div>
@@ -612,21 +601,10 @@
         </header>
         <div class="slide-content-area" data-content>
           <div class="solution-stack">
-            <div class="balance-stage">
-              <div class="balance-svg-wrap" data-step="1">
-                <svg class="balance-svg" viewBox="0 0 900 360" aria-hidden="true">
-                  <line x1="450" y1="78" x2="450" y2="292" class="balance-pillar"></line>
-                  <polygon points="450,292 402,336 498,336" class="balance-base"></polygon>
-                  <g class="balance-beam">
-                    <line x1="250" y1="120" x2="650" y2="120" class="balance-arm"></line>
-                    <line x1="320" y1="120" x2="290" y2="200" class="balance-chain"></line>
-                    <line x1="580" y1="120" x2="610" y2="170" class="balance-chain"></line>
-                    <path d="M 245 200 Q 290 228 335 200" class="balance-pan balance-pan--left"></path>
-                    <path d="M 565 170 Q 610 198 655 170" class="balance-pan balance-pan--right"></path>
-                  </g>
-                </svg>
-                <div class="balance-card balance-card--plato">Teoria dedutiva<small>essencial para design conceitual</small></div>
-                <div class="balance-card balance-card--aristotle" data-step="2">Observação prática<small>produção, desperdício e ciclos de aprendizado</small></div>
+            <div>
+              <div class="balance-row">
+                <div class="card card--balance plato" data-step="1">Teoria Dedutiva<small>Platão — essencial no design conceitual</small></div>
+                <div class="card card--balance aris" data-step="2">Observação Prática<small>Aristóteles — produção, desperdício, ciclos indutivos</small></div>
               </div>
               <p class="balance-fulcrum" data-step="2">Síntese, não exclusão</p>
             </div>
