@@ -147,6 +147,36 @@
   font-size: var(--font-size-body);
   line-height: 1.36;
 }
+#slide-03 {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+#slide-03::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("./assets/slide-03-iceberg-bg.png");
+  background-position: center right 18%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.72;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#slide-03::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(10, 47, 107, 0.8) 0%, rgba(10, 47, 107, 0.62) 34%, rgba(10, 47, 107, 0.36) 58%, rgba(10, 47, 107, 0.66) 100%),
+    linear-gradient(180deg, rgba(10, 47, 107, 0.36) 0%, rgba(10, 47, 107, 0.1) 26%, rgba(5, 20, 38, 0.52) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
 .iceberg-panel {
   position: relative;
   min-height: 26rem;
