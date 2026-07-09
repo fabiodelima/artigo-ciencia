@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentStepIndex = 0; // Passo atual no slide ativo
   let hasCompletedInitialRender = false;
   let hasNavigatedBetweenSlides = false;
+  const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   // ── CONTROLE REMOTO VIA WEBSOCKET ─────────────────────────────────────────
   // Gera um ID de sessão de 4 dígitos e exibe na tela para o celular conectar.
@@ -188,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gatilho de animações e painéis na inicialização do slide
     triggerStepAnimations(activeSlideIndex, currentStepIndex);
+    syncBackgroundMedia();
 
     // Salvar o estado atual no LocalStorage e na URL (Hash) silenciosamente para restauração ao atualizar
     if (!isPresenter) {
@@ -317,6 +319,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sem animações de passos customizadas necessárias para este deck
   }
 
+  function syncBackgroundMedia() {
+    const allSlideVideos = Array.from(document.querySelectorAll('.slide-bg-video[data-autoplay-slide]'));
+
+    allSlideVideos.forEach(video => {
+      const targetIndex = parseInt(video.dataset.autoplaySlide, 10);
+      const shouldPlay = !reduceMotionQuery.matches && targetIndex === activeSlideIndex && !document.body.classList.contains('is-printing');
+
+      if (shouldPlay) {
+        const playback = video.play();
+        if (playback && typeof playback.catch === 'function') {
+          playback.catch(() => {});
+        }
+      } else {
+        video.pause();
+      }
+    });
+  }
+
   // Inicializar o slide atual na abertura do site (com suporte a hash e modo apresentador)
   const hash = window.location.hash;
   let initIndex = 0;
@@ -386,6 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!isPresenter) {
     window.addEventListener('beforeprint', prepareForPrint);
     window.addEventListener('afterprint', cleanupAfterPrint);
+    reduceMotionQuery.addEventListener('change', syncBackgroundMedia);
 
     // Atalho de teclado para impressão
     window.addEventListener('keydown', (e) => {
@@ -397,4 +418,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  syncBackgroundMedia();
 });

@@ -63,6 +63,33 @@ body {
   color: var(--color-bg);
 }
 
+.slide-media-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.slide-bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  filter: saturate(0.9) contrast(1.05);
+  transform: scale(1.02);
+  transition: opacity 0.8s ease, transform 1.2s ease;
+}
+
+.slide-section.is-visible .slide-bg-video {
+  opacity: 0.82;
+  transform: scale(1);
+}
+
+.slide-bg-video--dim {
+  filter: saturate(0.55) brightness(0.55) contrast(1.05);
+}
+
 /* Frame de Conteúdo - SEM moldura de slide, solto no espaço */
 .slide-frame {
   width: 100%;
@@ -90,6 +117,12 @@ body {
   background: radial-gradient(circle at center, transparent 20%, var(--color-primary-deep) 85%);
   z-index: 2;
   pointer-events: none;
+}
+
+.has-media-bg .hero-overlay {
+  background:
+    linear-gradient(90deg, rgba(10, 47, 107, 0.84) 0%, rgba(10, 47, 107, 0.5) 36%, rgba(10, 47, 107, 0.78) 100%),
+    radial-gradient(circle at center, transparent 20%, rgba(10, 47, 107, 0.92) 88%);
 }
 
 /* Cabeçalho do Slide Solto */
@@ -223,6 +256,12 @@ body {
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--delay, 0ms);
   will-change: opacity, transform;
+}
+
+.slide-frame > .slide-content-area,
+.slide-frame > .slide-header {
+  position: relative;
+  z-index: 3;
 }
 
 .slide-section.is-visible .slide-frame > * {
@@ -742,6 +781,15 @@ g[data-step].active-step {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .slide-bg-video,
+  .slide-frame > *,
+  :not(svg):not(g):not(path)[data-step] {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
 /* ==========================================================================
    9. SUPORTE A IMPRESSÃO E EXPORTAÇÃO (PDF 1080p 16:9)
    ========================================================================== */
@@ -758,6 +806,12 @@ g[data-step].active-step {
     background: var(--color-bg) !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+
+  .slide-media-layer,
+  #remote-session-badge,
+  .indicator-container {
+    display: none !important;
   }
 
   .slides-wrapper {

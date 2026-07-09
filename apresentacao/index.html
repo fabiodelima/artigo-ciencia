@@ -251,11 +251,17 @@
   <div class="slides-wrapper">
 
     <!-- SLIDE 01: CAPA -->
-    <section class="slide-section dark" id="slide-01" data-index="0">
+    <section class="slide-section dark has-media-bg" id="slide-01" data-index="0">
+      <div class="slide-media-layer" aria-hidden="true">
+        <video class="slide-bg-video" muted loop playsinline preload="metadata" data-autoplay-slide="0">
+          <source src="assets/video/cover-01.mp4" type="video/mp4">
+          <source src="assets/video/cover-02.mp4" type="video/mp4">
+        </video>
+      </div>
       <div class="hero-overlay"></div>
       <div class="hero-wrapper" data-content>
         <h1 class="hero-title"><em>On Epistemology of Construction Engineering and Management</em></h1>
-        <p class="hero-reference">Koskela, L.; Kagioglou, M.; et al. 2017</p>
+        <p class="hero-reference">Koskela · Pikas · Niiranen · Ferrantelli · Dave · IGLC 2017</p>
         <p class="hero-deck">
           Os fundamentos filosóficos ocultos por trás das falhas crônicas do setor
         </p>
@@ -283,6 +289,13 @@
         <div class="slide-content-area" data-content>
           <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
             <div class="grid grid--6-col roadmap">
+              <div class="roadmap-progress" aria-hidden="true">
+                <span class="roadmap-segment segment-1"></span>
+                <span class="roadmap-segment segment-2"></span>
+                <span class="roadmap-segment segment-3"></span>
+                <span class="roadmap-segment segment-4"></span>
+                <span class="roadmap-segment segment-5"></span>
+              </div>
               <div class="card card--roadmap" data-step="1"><p class="card-number">1</p><p class="card-step-label">O Problema Oculto</p><p class="card-text">Causas dispersas ou uma raiz comum?</p></div>
               <div class="card card--roadmap" data-step="2"><p class="card-number">2</p><p class="card-step-label">Bases do Conhecimento</p><p class="card-text">De onde vem o conhecimento?</p></div>
               <div class="card card--roadmap" data-step="3"><p class="card-number">3</p><p class="card-step-label">As Origens</p><p class="card-text">Quem fundou as duas tradições?</p></div>
@@ -306,30 +319,32 @@
           <h2 class="slide-title">Causas dispersas ou uma raiz comum?</h2>
         </header>
         <div class="slide-content-area" data-content>
-          <div class="grid grid--2-col">
-            <div>
-              <p class="big-question" data-step="1">
-                As causas dos problemas da construção são <em>abundantes e dispersas</em>, ou existe uma <em>causa-raiz</em> que poderia ser remediada com esforço concentrado?
-              </p>
-              <div class="callout" data-step="4">
+          <div class="grid grid--2-col slide-03-layout">
+            <div class="slide-03-copy">
+              <blockquote class="article-quote" data-step="1">
+                <p>...é necessário saber se as causas-raiz são <strong>abundantes e espalhadas</strong> por muitos domínios, ou se existem algumas causas-raiz maiores que poderiam ser remediadas com poucos esforços concentrados.</p>
+                <footer>koskela et al. (2017), introdução · tradução nossa</footer>
+              </blockquote>
+              <div class="callout callout--epistemic" data-step="4">
                 <p class="callout-label">→ Resposta do artigo</p>
-                <p>Existe <strong>uma</strong> causa-raiz sistematicamente negligenciada: as <strong>escolhas epistemológicas inadequadas</strong> na engenharia e na gestão.</p>
+                <p><strong>Epistemologia</strong> é como adquirimos e validamos o que sabemos. Aqui, ela define como projetamos, planejamos e controlamos a obra. A tese: existe <strong>uma causa-raiz negligenciada</strong> — escolhas epistemológicas inadequadas.</p>
               </div>
             </div>
-            <div>
-              <p class="ice-tag" data-step="2">Sintomas visíveis (a ponta do iceberg)</p>
-              <div class="ice-symptoms" data-step="2">
-                <span>Atrasos crônicos</span>
-                <span>Estouro de orçamento</span>
-                <span>Baixa qualidade</span>
-                <span>Falhas na cadeia de suprimentos</span>
-                <span>CPM ineficaz</span>
-                <span>Silos</span>
-              </div>
-              <div class="iceberg-line" data-step="3"><span>linha d'água</span></div>
-              <div class="callout callout--root" data-step="3">
-                <strong>Epistemologia inadequada</strong>
-                <small>Como entendemos, adquirimos e validamos o conhecimento na nossa disciplina — a base submersa que sustenta todos os sintomas.</small>
+            <div class="iceberg-panel">
+              <div class="iceberg-visual">
+                <div class="iceberg-waterline" data-step="2"></div>
+                <div class="iceberg-mass iceberg-top" data-step="2"></div>
+                <div class="iceberg-mass iceberg-bottom" data-step="3"></div>
+                <p class="ice-tag" data-step="2">Sintomas visíveis</p>
+                <div class="ice-symptoms" data-step="2">
+                  <span>Atrasos</span>
+                  <span>Custos</span>
+                  <span>Baixa qualidade</span>
+                  <span>Silos</span>
+                  <span>CPM ineficaz</span>
+                  <span>Suprimentos</span>
+                </div>
+                <p class="ice-root-label" data-step="3">Base submersa: epistemologia inadequada</p>
               </div>
             </div>
           </div>
@@ -343,7 +358,10 @@
         <div class="slide-content-area" data-content style="padding: 0; width: 100%; height: 100%;">
           <div class="grid grid--2-col theory-split-container">
 
-            <div class="card card--split dark-side" data-step="1">
+            <div class="card card--split dark-side philosophy-side philosophy-side--plato" data-step="1">
+              <div class="split-bust split-bust--left" aria-hidden="true">
+                <img src="assets/plato.png" alt="">
+              </div>
               <p class="split-meta split-kicker">04 · Bases do Conhecimento</p>
               <div class="card-badge">Racionalismo</div>
               <h3 class="card-title">Platonismo</h3>
@@ -375,7 +393,10 @@
               </div>
             </div>
 
-            <div class="card card--split light-side" data-step="2">
+            <div class="card card--split light-side philosophy-side philosophy-side--aristotle" data-step="2">
+              <div class="split-bust split-bust--right" aria-hidden="true">
+                <img src="assets/aristotle.png" alt="">
+              </div>
               <p class="split-meta split-question">De onde vem o conhecimento para projetar e planejar?</p>
               <div class="card-badge">Empirismo</div>
               <h3 class="card-title">Aristotelismo</h3>
@@ -424,7 +445,10 @@
         <div class="slide-content-area" data-content style="padding: 0; width: 100%; height: 100%;">
           <div class="grid grid--2-col theory-split-container">
 
-            <div class="card card--split dark-side" data-step="1">
+            <div class="card card--split dark-side philosophy-side philosophy-side--rankine" data-step="1">
+              <div class="split-bust split-bust--left" aria-hidden="true">
+                <img src="assets/rankine.png" alt="">
+              </div>
               <p class="split-meta split-kicker">05 · As Origens Intelectuais</p>
               <div class="card-badge">Herdeiro do Platonismo</div>
               <h3 class="card-title">William Rankine</h3>
@@ -438,7 +462,10 @@
               </table>
             </div>
 
-            <div class="card card--split light-side" data-step="2">
+            <div class="card card--split light-side philosophy-side philosophy-side--shewhart" data-step="2">
+              <div class="split-bust split-bust--right" aria-hidden="true">
+                <img src="assets/shewhart.png" alt="">
+              </div>
               <p class="split-meta split-question">Rankine e Shewhart são os herdeiros concretos das duas epistemologias</p>
               <div class="card-badge">Herdeiro do Aristotelismo</div>
               <h3 class="card-title">Walter Shewhart</h3>
@@ -465,21 +492,27 @@
           <h2 class="slide-title">Como o platonismo passou a dominar</h2>
         </header>
         <div class="slide-content-area" data-content>
-          <div class="timeline-wrap">
-            <p class="timeline-axis" data-step="1">Pós-1945 →</p>
+          <div class="timeline-wrap timeline-wrap--duplex">
+            <p class="timeline-axis" data-step="1">Pós-1945 · difusão desigual das duas tradições</p>
+            <div class="timeline-scale" data-step="1">
+              <span>1945</span>
+              <span>1959</span>
+              <span>1980s</span>
+              <span>1990s</span>
+            </div>
             <div class="timeline-lanes">
               <div class="lane dominant" data-step="2">
-                <div class="lane-label">Via Expressa<small>Racionalismo Platônico (dominante)</small></div>
+                <div class="lane-label">Via Expressa<small>Racionalismo platônico dominante</small></div>
                 <div class="lane-track">
-                  <div class="lane-item">Reforma curricular da engenharia (matemática aplicada)</div>
-                  <div class="lane-item">Relatórios Ford &amp; Carnegie (1959)</div>
-                  <div class="lane-item">Economia neoclássica &amp; métodos quantitativos</div>
+                  <div class="lane-item">Currículo de engenharia mais matematizado</div>
+                  <div class="lane-item">Relatórios de 1959 sobre educação em gestão (EUA)</div>
+                  <div class="lane-item">Economia neoclássica e métodos quantitativos</div>
                 </div>
               </div>
               <div class="lane resistance" data-step="3">
-                <div class="lane-label">Via de Resistência<small>Empirismo Aristotélico (marginal)</small></div>
+                <div class="lane-label">Via de Resistência<small>Empirismo aristotélico marginal</small></div>
                 <div class="lane-track">
-                  <div class="lane-item">Movimento da Qualidade no Japão (Deming)</div>
+                  <div class="lane-item">Qualidade industrial e experimentação</div>
                   <div class="lane-item">Toyota / TPS</div>
                   <div class="lane-item">Lean Construction</div>
                 </div>
@@ -502,21 +535,30 @@
           <h2 class="slide-title">Quando o platonismo excessivo adoece o projeto</h2>
         </header>
         <div class="slide-content-area" data-content>
-          <div class="grid grid--2-col">
-            <div class="card card--tension" data-step="1">
-              <div class="card-badge card-badge--alert"><span>🧱 Obsessão pelo Design</span></div>
-              <h3 class="card-title">O muro do projeto perfeito</h3>
-              <p class="card-text">
-                Detalha-se o plano no papel ignorando a construtibilidade física. O projetista "joga" as plantas por cima do muro — e os operários do outro lado que resolvam a execução.
-              </p>
+          <div class="pathology-wall">
+            <div class="pathology-stage" data-step="1">
+              <div class="pathology-project">
+                <div class="pathology-label">Projeto</div>
+                <div class="pathology-board">
+                  <span>Planta "perfeita"</span>
+                  <span>Modelo abstrato</span>
+                </div>
+              </div>
+              <div class="pathology-wall-divider" aria-hidden="true"></div>
+              <div class="pathology-site">
+                <div class="pathology-label">Obra</div>
+                <div class="pathology-site-box">restrições físicas, improvisos e retrabalho</div>
+              </div>
+              <div class="pathology-throw" aria-hidden="true">
+                <span class="throw-sheet">folhas do projeto</span>
+              </div>
             </div>
-            <div class="card card--tension" data-step="2">
-              <div class="card-badge card-badge--alert"><span>🧩 Mentalidade de Silo</span></div>
-              <h3 class="card-title">Fragmentação do conhecimento</h3>
-              <p class="card-text">
-                A superespecialização faz cada disciplina (estruturas, elétrica, hidráulica) trabalhar isolada, sem colaboração real durante o design.
-              </p>
+            <div class="pathology-silos" data-step="2">
+              <div class="silo-card">Estruturas</div>
+              <div class="silo-card">Elétrica</div>
+              <div class="silo-card">Hidráulica</div>
             </div>
+            <p class="pathology-summary" data-step="2">O conhecimento só desce do abstrato para o concreto; a realidade nunca corrige o modelo em tempo.</p>
           </div>
         </div>
       </div>
@@ -530,25 +572,31 @@
           <h2 class="slide-title">A negação do desperdício e a falha do CPM</h2>
         </header>
         <div class="slide-content-area" data-content>
-          <div class="grid grid--2-col">
-            <div class="card card--tension" data-step="1">
-              <div class="card-badge card-badge--alert"><span>⚠️ CPM — Empurrado (Push)</span></div>
-              <h3 class="card-title">O plano dedutivo que desmorona</h3>
-              <p class="card-text">
-                O CPM (1959) "empurra" tarefas por durações teóricas. Quando a realidade física interfere (clima, atraso de material), o modelo colapsa.
-              </p>
-              <p class="card-stat">~50%</p>
-              <p class="card-text" style="margin-top:-0.6rem;">das tarefas planejadas para a semana são de fato realizadas no CPM tradicional.</p>
+          <div class="cpm-showdown">
+            <div class="cpm-stat card card--tension" data-step="1">
+              <div class="card-badge card-badge--alert"><span>⚠️ Push · CPM</span></div>
+              <p class="card-eyebrow">Quando o plano dedutivo encontra a obra real</p>
+              <p class="card-stat">50%</p>
+              <p class="card-text">das tarefas semanais planejadas acabam realizadas.<br><small>Ballard (2000), observação recorrente do início dos anos 1990.</small></p>
+              <div class="push-flow" aria-hidden="true">
+                <span class="push-node">Plano</span>
+                <span class="push-arrow"></span>
+                <span class="push-node push-node--block">Realidade</span>
+              </div>
             </div>
-            <div class="card card--structure" data-step="2">
-              <div class="card-badge card-badge--active"><span>✅ Last Planner — Puxado (Pull)</span></div>
-              <h3 class="card-title">Remover restrições antes de assumir compromisso</h3>
-              <p class="card-text">
-                O sistema "puxado" só compromete uma tarefa quando suas restrições físicas foram removidas — aproximando o plano da realidade do canteiro.
-              </p>
-              <p class="card-text">
-                <strong>A negação do desperdício:</strong> modelos platônicos assumem axiomaticamente que "empresas eficientes não geram desperdício" — impedindo medi-lo e combatê-lo.
-              </p>
+            <div class="cpm-pull card card--structure" data-step="2">
+              <div class="card-badge card-badge--active"><span>✅ Pull · Last Planner</span></div>
+              <h3 class="card-title">Compromisso só depois das restrições removidas</h3>
+              <div class="pull-flow" aria-hidden="true">
+                <span class="pull-node pull-node--ready">Restrições removidas</span>
+                <span class="pull-arrow"></span>
+                <span class="pull-node">Tarefa assumida</span>
+              </div>
+              <p class="card-text">O plano só parte quando a frente está pronta. A observação da produção autoriza o compromisso.</p>
+              <blockquote class="micro-quote">
+                “In any free market economy businesses will never waste inputs…”
+                <footer>Myers (2004), citado por Koskela et al.</footer>
+              </blockquote>
             </div>
           </div>
         </div>
@@ -564,10 +612,21 @@
         </header>
         <div class="slide-content-area" data-content>
           <div class="solution-stack">
-            <div>
-              <div class="balance-row">
-                <div class="card card--balance plato" data-step="1">Teoria Dedutiva<small>Platão — essencial no design conceitual</small></div>
-                <div class="card card--balance aris" data-step="2">Observação Prática<small>Aristóteles — produção, desperdício, ciclos indutivos</small></div>
+            <div class="balance-stage">
+              <div class="balance-svg-wrap" data-step="1">
+                <svg class="balance-svg" viewBox="0 0 900 360" aria-hidden="true">
+                  <line x1="450" y1="78" x2="450" y2="292" class="balance-pillar"></line>
+                  <polygon points="450,292 402,336 498,336" class="balance-base"></polygon>
+                  <g class="balance-beam">
+                    <line x1="250" y1="120" x2="650" y2="120" class="balance-arm"></line>
+                    <line x1="320" y1="120" x2="290" y2="200" class="balance-chain"></line>
+                    <line x1="580" y1="120" x2="610" y2="170" class="balance-chain"></line>
+                    <path d="M 245 200 Q 290 228 335 200" class="balance-pan balance-pan--left"></path>
+                    <path d="M 565 170 Q 610 198 655 170" class="balance-pan balance-pan--right"></path>
+                  </g>
+                </svg>
+                <div class="balance-card balance-card--plato">Teoria dedutiva<small>essencial para design conceitual</small></div>
+                <div class="balance-card balance-card--aristotle" data-step="2">Observação prática<small>produção, desperdício e ciclos de aprendizado</small></div>
               </div>
               <p class="balance-fulcrum" data-step="2">Síntese, não exclusão</p>
             </div>
@@ -582,30 +641,36 @@
     </section>
 
     <!-- SLIDE 10: DISCUSSÃO CRÍTICA & REFERÊNCIAS -->
-    <section class="slide-section dark" id="slide-10" data-index="9">
+    <section class="slide-section dark has-media-bg" id="slide-10" data-index="9">
+      <div class="slide-media-layer" aria-hidden="true">
+        <video class="slide-bg-video slide-bg-video--dim" muted loop playsinline preload="metadata" data-autoplay-slide="9">
+          <source src="assets/video/cover-01.mp4" type="video/mp4">
+          <source src="assets/video/cover-02.mp4" type="video/mp4">
+        </video>
+      </div>
       <div class="slide-frame">
         <header class="slide-header">
           <p class="slide-category">10 · Discussão Crítica &amp; Fechamento</p>
           <h2 class="slide-title">Perguntas para a sala</h2>
         </header>
         <div class="slide-content-area" data-content>
-          <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
-            <div class="grid grid--3-col">
-              <div class="card card--dark" data-step="1">
+          <div class="closing-stage">
+            <div class="closing-stack">
+              <div class="closing-question card card--dark" data-step="1">
                 <p class="card-number">1</p>
                 <p class="card-text">Quão viável é mudar currículos de engenharia hoje?</p>
               </div>
-              <div class="card card--dark" data-step="2">
+              <div class="closing-question card card--dark" data-step="2">
                 <p class="card-number">2</p>
-                <p class="card-text">Lean Construction e BIM integrado conseguem unir o design conceitual (Platão) à produção colaborativa (Aristóteles)?</p>
+                <p class="card-text">Lean Construction e BIM integrado conseguem unir o design conceitual à produção colaborativa?</p>
               </div>
-              <div class="card card--dark" data-step="3">
+              <div class="closing-question card card--dark" data-step="3">
                 <p class="card-number">3</p>
-                <p class="card-text">O ensino da nossa universidade é puramente platônico?</p>
+                <p class="card-text">O ensino da nossa universidade ainda é majoritariamente platônico?</p>
               </div>
             </div>
             <p class="discuss-refs" data-step="4">
-              KOSKELA, L.; KAGIOGLOU, M.; et al. <em>On Epistemology of Construction Engineering and Management</em>. 2017.
+              KOSKELA, L.; PIKAS, E.; NIIRANEN, J.; FERRANTELLI, A.; DAVE, B. <em>On Epistemology of Construction Engineering and Management</em>. IGLC 25, 2017, p. 169–176. DOI 10.24928/2017/0336.
             </p>
           </div>
         </div>
